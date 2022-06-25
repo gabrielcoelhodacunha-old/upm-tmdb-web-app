@@ -1,20 +1,13 @@
-type THttpMethod = "POST" | "GET"
-
-interface IHttpBody {
-  username: string,
-  password: string,
-  request_token: string,
-  session_id: string
-}
+type THttpMethod = "GET" | "POST";
 
 interface IHttpRequest {
   url: string,
   method: THttpMethod,
-  body?: IHttpBody | string | null
+  body?: any
 }
 
 class HttpClient {
-  static async get({url, method, body = null} : IHttpRequest) : Promise<IHttpBody> {
+  static async get({url, method, body = null} : IHttpRequest) : Promise<any> {
     return new Promise((resolve, reject) => {
       let request = new XMLHttpRequest();
       request.open(method, url, true);
@@ -41,8 +34,8 @@ class HttpClient {
         body = JSON.stringify(body);
       }
       request.send(body);
-    })
+    });
   }
 }
 
-export {IHttpRequest, HttpClient};
+export { THttpMethod, IHttpRequest, HttpClient };
