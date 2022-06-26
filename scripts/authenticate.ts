@@ -3,10 +3,17 @@ import { apiKeyInput, loginInput, senhaInput } from "./htmlElements";
 import { HttpClient } from "./httpClient";
 let sessionId : string;
 
-async function authenticate() {
-  let requestToken = await criarRequestToken();
-  await logar(requestToken);
-  sessionId = await criarSessao(requestToken);
+async function authenticate() : Promise<string> {
+  try {
+    let requestToken = await criarRequestToken();
+    await logar(requestToken);
+    sessionId = await criarSessao(requestToken);
+  }
+  catch {
+    alert("Credenciais incorretas!");
+    sessionId = "";
+  }
+  return sessionId;
 }
 
 async function criarRequestToken() : Promise<string> {
@@ -14,7 +21,7 @@ async function criarRequestToken() : Promise<string> {
     url: `${BASE_API_URL}/authentication/token/new?api_key=${apiKeyInput.value}`,
     method: GET
   });
-  return result.request_token
+  return result.request_token;
 }
 
 async function logar(requestToken : string) {

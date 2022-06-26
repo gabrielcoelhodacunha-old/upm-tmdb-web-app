@@ -1,18 +1,40 @@
-* {
-  margin: 10px;
-  padding: 10px;
+:root {
+  --black: #0e0e0e;
 }
 
-#search_container {
-  margin-left: 20px;
+* {
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+  background-color: var(--black);
+  color: white;
+  border-color: white;
+  border-radius: 4px;
+}
+
+* :disabled {
+  background-color: grey;
+  color: lightgray;
+  border-color: grey;
+}
+
+* input {
+  text-align: left;
 }
 
 #tmdb_attribution {
   font-size: 20px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #tmdb_attribution img {
   width: 200px;
   height: 30px;
+}
+
+.hide {
+  display: none;
 }

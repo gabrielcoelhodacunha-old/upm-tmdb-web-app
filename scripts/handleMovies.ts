@@ -5,8 +5,6 @@ import { HttpClient } from "./httpClient"
 
 async function procurarFilme(query : string) {
   query = encodeURI(query)
-  console.log(sessionId);
-  console.log(query)
   let result = await HttpClient.get({
     url: `${BASE_API_URL}/search/movie?api_key=${apiKeyInput.value}&query=${query}`,
     method: GET

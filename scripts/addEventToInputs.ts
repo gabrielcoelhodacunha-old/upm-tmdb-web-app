@@ -11,11 +11,9 @@ function addChangeEventToInput(input : HTMLInputElement) : void {
 }
 
 function validateLoginButton() : void {
-  if (!loginInput) console.log("erro");
   let login = loginInput.value;
   let senha = senhaInput.value;
   let apiKey = apiKeyInput.value;
-  console.log(login, senha, apiKey);
   loginButton.disabled = login && senha && apiKey ? false : true;
 }
 

@@ -28,7 +28,6 @@ class HttpClient {
           statusText: request.statusText
         })
       }
-
       if (body) {
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         body = JSON.stringify(body);
