@@ -1,20 +1,15 @@
-import { apiKeyInput, loginButton, loginInput, senhaInput } from "./htmlElements";
+import { authenticateAndDisableInputs, viewSearchResults } from "./addEventToButtons";
+import { apiKeyInput, loginInput, searchInput, senhaInput } from "./htmlElements";
 
 function addEventToInputs() : void {
-  addChangeEventToInput(loginInput);
-  addChangeEventToInput(senhaInput);
-  addChangeEventToInput(apiKeyInput);
+  addEnterEventToInput(loginInput, authenticateAndDisableInputs);
+  addEnterEventToInput(senhaInput, authenticateAndDisableInputs);
+  addEnterEventToInput(apiKeyInput, authenticateAndDisableInputs);
+  addEnterEventToInput(searchInput, viewSearchResults);
 }
 
-function addChangeEventToInput(input : HTMLInputElement) : void {
-  input.addEventListener('change', validateLoginButton);
-}
-
-function validateLoginButton() : void {
-  let login = loginInput.value;
-  let senha = senhaInput.value;
-  let apiKey = apiKeyInput.value;
-  loginButton.disabled = login && senha && apiKey ? false : true;
+function addEnterEventToInput(input : HTMLInputElement, callback : any) : void {
+  input.addEventListener("keypress", event => event.key === "Enter" ? callback() : null);
 }
 
 export default addEventToInputs;

@@ -4,9 +4,8 @@ import { apiKeyInput } from "./htmlElements"
 import { HttpClient } from "./httpClient"
 
 async function procurarFilme(query : string) {
-  query = encodeURI(query)
   let result = await HttpClient.get({
-    url: `${BASE_API_URL}/search/movie?api_key=${apiKeyInput.value}&query=${query}`,
+    url: `${BASE_API_URL}/search/movie?api_key=${apiKeyInput.value}&query=${encodeURI(query)}`,
     method: GET
   })
   return result

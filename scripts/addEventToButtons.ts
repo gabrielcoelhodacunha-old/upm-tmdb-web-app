@@ -1,7 +1,11 @@
 import { authenticate } from "./authenticate";
-import { CSS_HIDE_CLASS } from "./constants";
+import { CSS_HIDE_CLASS, IMAGES_BASE_URL } from "./constants";
 import { procurarFilme } from "./handleMovies";
 import { activateListsButton, activateSearchButton, listsContainer, loginButton, searchButton, searchContainer, searchInput } from "./htmlElements";
+
+let listasDeFilmes : string[];
+
+listasDeFilmes = ["Uno", "Two", "3"];
 
 function addEventToButtons() {
   addClickEventToButton(loginButton, authenticateAndDisableInputs);
@@ -23,17 +27,61 @@ async function authenticateAndDisableInputs() {
 
 async function viewSearchResults() {
   let lista = document.getElementById("lista");
-  if (lista) lista.outerHTML = "";
   let query = searchInput.value;
-  let listaDeFilmes = await procurarFilme(query);
-  let ul = document.createElement('ul');
-  ul.id = "lista"
-  for (const item of listaDeFilmes.results) {
-    let li = document.createElement('li');
-    li.appendChild(document.createTextNode(item.original_title))
-    ul.appendChild(li)
+  let movies = await procurarFilme(query);
+  let table = document.createElement('table');
+  
+  if (lista) lista.outerHTML = "";
+  table.id = "lista";
+  table.appendChild(createTableHeader());
+  for (const item of movies.results) {
+    table.appendChild(createTableRow(item));
   }
-  searchContainer.appendChild(ul);
+  searchContainer.appendChild(table);
+}
+
+function createTableHeader() : HTMLTableRowElement {
+  const row = document.createElement("tr");
+  const image = document.createElement("th");
+  const title = document.createElement("th");
+  const lists = document.createElement("th");
+
+  row.appendChild(image);
+  title.innerHTML = "Titulo";
+  row.appendChild(title);
+  lists.innerHTML = "Listas";
+  row.appendChild(lists);
+
+  return row;
+}
+
+function createTableRow(item : any) : HTMLTableRowElement {
+  const row = document.createElement("tr");
+  const image = document.createElement("img");
+  const addToList = document.createElement("button");
+  const removeFromList = document.createElement("button");
+  const title = document.createElement("td");
+  const lists = document.createElement("td");
+  const select = document.createElement("select");
+
+  image.src = `${IMAGES_BASE_URL}${item.poster_path}`;
+  row.appendChild(image);
+  title.textContent = item.original_title;
+  row.appendChild(title);
+  for (const lista of listasDeFilmes) {
+    const option = document.createElement("option");
+    option.value = lista;
+    option.innerHTML = lista;
+    select.appendChild(option);
+  }
+  lists.appendChild(select);
+  addToList.innerHTML = "Adicionar";
+  lists.appendChild(addToList);
+  removeFromList.innerHTML = "Remover";
+  lists.appendChild(removeFromList);
+  row.appendChild(lists);
+
+  return row;
 }
 
 function enableSearchPage() {
@@ -52,5 +100,7 @@ function enablePage(container : HTMLDivElement, button : HTMLButtonElement) {
   container.classList.remove(CSS_HIDE_CLASS);
   button.disabled = true;
 }
+
+export { authenticateAndDisableInputs, viewSearchResults };
 
 export default addEventToButtons;
