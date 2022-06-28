@@ -12,25 +12,20 @@
   border-radius: 4px;
 }
 
-* :disabled {
+.hide {
+  display: none;
+}
+
+:disabled {
   background-color: grey;
   color: lightgray;
   border-color: grey;
 }
 
-* input {
+input, textarea {
   text-align: left;
-}
-
-* ul {
-  display: table;
-  margin: 0 auto;
-}
-
-* li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  resize: none;
+  width: 10rem;
 }
 
 table {
@@ -57,6 +52,13 @@ img {
   height: 30px;
 }
 
-.hide {
-  display: none;
+.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#list_description {
+  height: 5rem;
 }

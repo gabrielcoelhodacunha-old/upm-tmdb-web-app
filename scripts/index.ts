@@ -1,5 +1,6 @@
 import addEventToInputs from "./addEventToInputs";
-import addEventToButtons from "./addEventToButtons";
+import addEventToButtons, { enableLogin } from "./addEventToButtons";
 
 addEventToInputs();
 addEventToButtons();
+enableLogin();

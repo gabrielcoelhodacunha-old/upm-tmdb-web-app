@@ -1,7 +1,15 @@
 import { sessionId } from "./authenticate"
 import { BASE_API_URL, GET, POST } from "./constants"
-import { apiKeyInput } from "./htmlElements"
+import { apiKeyInput, loginInput } from "./htmlElements"
 import { HttpClient } from "./httpClient"
+
+interface IMoviesList {
+  id: number,
+  name: string,
+  description: string
+}
+
+let listasDeFilmes = [] as IMoviesList[];
 
 async function procurarFilme(query : string) {
   let result = await HttpClient.get({
@@ -19,7 +27,23 @@ async function adicionarFilme(filmeId : string) {
   console.log(result);
 }
 
-async function criarLista(nomeDaLista : string, descricao : string) {
+async function getMoviesLists() : Promise<void> {
+  let result = await HttpClient.get({
+    url: `${BASE_API_URL}/account/${loginInput.value}/lists?api_key=${apiKeyInput.value}&session_id=${sessionId}`,
+    method: GET
+  });
+  console.log(result.results);
+  if (listasDeFilmes.length) listasDeFilmes = [];
+  for (const {id, name, description} of result.results) {
+    listasDeFilmes.push({id, name, description});
+  }
+}
+
+async function criarLista(nomeDaLista : string, descricao : string) : Promise<IMoviesList | void> {
+  if (listasDeFilmes.some(list => list.name === nomeDaLista)) {
+    return alert(`A lista '${nomeDaLista}' ja existe!`);
+  };
+  if (!nomeDaLista) return alert(`O campo 'Nome' deve ser preenchido!`);
   let result = await HttpClient.get({
     url: `${BASE_API_URL}/list?api_key=${apiKeyInput.value}&session_id=${sessionId}`,
     method: POST,
@@ -29,7 +53,7 @@ async function criarLista(nomeDaLista : string, descricao : string) {
       language: "pt-br"
     }
   })
-  console.log(result);
+  return {id: result.list_id, name: nomeDaLista, description: descricao} as IMoviesList;
 }
 
 async function adicionarFilmeNaLista(filmeId : string, listaId : string) {
@@ -57,5 +81,7 @@ export {
   adicionarFilme,
   criarLista,
   adicionarFilmeNaLista,
-  pegarLista
+  pegarLista,
+  listasDeFilmes,
+  getMoviesLists
 };

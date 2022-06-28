@@ -1,10 +1,10 @@
-import { authenticateAndDisableInputs, viewSearchResults } from "./addEventToButtons";
+import { authenticateAndEnablePages, viewSearchResults } from "./addEventToButtons";
 import { apiKeyInput, loginInput, searchInput, senhaInput } from "./htmlElements";
 
 function addEventToInputs() : void {
-  addEnterEventToInput(loginInput, authenticateAndDisableInputs);
-  addEnterEventToInput(senhaInput, authenticateAndDisableInputs);
-  addEnterEventToInput(apiKeyInput, authenticateAndDisableInputs);
+  addEnterEventToInput(loginInput, authenticateAndEnablePages);
+  addEnterEventToInput(senhaInput, authenticateAndEnablePages);
+  addEnterEventToInput(apiKeyInput, authenticateAndEnablePages);
   addEnterEventToInput(searchInput, viewSearchResults);
 }
 

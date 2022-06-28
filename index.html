@@ -16,21 +16,22 @@
         <p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
       </div>
       <div id="login_container">
-        <input id="login" placeholder="Login">
+        <input id="login" placeholder="Login" type="password">
         <input id="senha" placeholder="Senha" type="password">
-        <input id="api_key" placeholder="Api Key">
+        <input id="api_key" placeholder="Api Key" type="password">
         <button id="login_button">Login</button>
       </div>
       <div id="pesquisar_ou_listas">
-        <button id="activate_search_button" disabled>Pesquisar</button>
+        <button id="activate_search_button">Pesquisar</button>
         <button id="activate_lists_button">Listas</button>
-        <div id="search_container">
-          <input id="search" placeholder="Nome do filme">
+        <div id="search_container" class="show">
+          <input id="search" placeholder="Titulo">
           <button id="search_button">Pesquisar</button>
         </div>
         <div id="lists_container" class="hide">
-          <input id="lists" placeholder="Nome da lista">
-          <button id="lists_button">Criar Lista</button>
+          <input id="list_name_input" placeholder="Nome">
+          <textarea id="list_description_textarea" placeholder="Descricao"></textarea>
+          <button id="list_create_button">Criar Lista</button>
         </div>
       </div>
     </div>
