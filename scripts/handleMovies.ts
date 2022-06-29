@@ -7,7 +7,7 @@ interface IMoviesList {
   id: number,
   name: string,
   description: string,
-  movies?: any[];
+  movies: any[];
 }
 
 let listasDeFilmes : IMoviesList[];

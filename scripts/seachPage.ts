@@ -38,13 +38,17 @@ function createTableHeader() : HTMLTableRowElement {
 async function createTableRow(item : any) : Promise<HTMLTableRowElement> {
   const row = document.createElement("tr");
   const image = document.createElement("img");
-  const addToList = document.createElement("button");
-  const removeFromList = document.createElement("button");
   const title = document.createElement("td");
   const lists = document.createElement("td");
   const select = document.createElement("select");
+  const addToList = document.createElement("button");
+  const removeFromList = document.createElement("button");
 
-  image.src = `${IMAGES_BASE_URL}${item.poster_path}`;
+  if (!item.poster_path) {
+    image.src = "";
+    image.alt = "Image not found!";
+  }
+  else image.src = `${IMAGES_BASE_URL}${item.poster_path}`;
   row.appendChild(image);
   title.textContent = item.original_title;
   row.appendChild(title);
@@ -85,7 +89,12 @@ async function createTableRow(item : any) : Promise<HTMLTableRowElement> {
   });
   lists.appendChild(removeFromList);
   row.appendChild(lists);
-  await toggleAddAndRemoveButtons();
+  if (!listasDeFilmes.length) {
+    select.disabled = true;
+    addToList.disabled = true;
+    removeFromList.disabled = true;
+  }
+  else await toggleAddAndRemoveButtons();
   
   return row;
 }
