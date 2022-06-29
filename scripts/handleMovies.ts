@@ -6,7 +6,8 @@ import { HttpClient } from "./httpClient"
 interface IMoviesList {
   id: number,
   name: string,
-  description: string
+  description: string,
+  movies?: any[];
 }
 
 let listasDeFilmes : IMoviesList[];
@@ -34,7 +35,8 @@ async function getMoviesLists() : Promise<void> {
   });
   listasDeFilmes = [];
   for (const {id, name, description} of result.results) {
-    listasDeFilmes.push({id, name, description});
+    const movies = (await pegarLista(id)).items;
+    listasDeFilmes.push({id, name, description, movies});
   }
 }
 
@@ -65,23 +67,33 @@ async function criarLista(nomeDaLista : string, descricao : string) : Promise<IM
 }
 
 async function adicionarFilmeNaLista(filmeId : string, listaId : string) {
-  let result = await HttpClient.get({
+  await HttpClient.get({
     url: `${BASE_API_URL}/list/${listaId}/add_item?api_key=${apiKeyInput.value}&session_id=${sessionId}`,
     method: POST,
     body: {
       media_id: filmeId
     }
-  })
-  console.log(result);
+  });
+  await getMoviesLists();
 }
 
-async function pegarLista() {
-  const listId = (document.getElementById('lista') as HTMLUListElement).nodeValue;
+async function removeMovieFromList(movieId : string, listId : string) {
+  await HttpClient.get({
+    url: `${BASE_API_URL}/list/${listId}/remove_item?api_key=${apiKeyInput.value}&session_id=${sessionId}`,
+    method: POST,
+    body: {
+      media_id: movieId
+    }
+  });
+  await getMoviesLists();
+}
+
+async function pegarLista(listId : string) : Promise<any> {
   let result = await HttpClient.get({
     url: `${BASE_API_URL}/list/${listId}?api_key=${apiKeyInput.value}`,
     method: GET
   })
-  console.log(result);
+  return result;
 }
 
 export {
@@ -93,5 +105,6 @@ export {
   listasDeFilmes,
   getMoviesLists,
   IMoviesList,
-  deleteList
+  deleteList,
+  removeMovieFromList
 };

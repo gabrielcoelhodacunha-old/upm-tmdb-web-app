@@ -1,6 +1,5 @@
 import { authenticate, sessionId } from "./authenticate";
 import { CSS_HIDE_CLASS, CSS_SHOW_CLASS } from "./constants";
-import { getMoviesLists } from "./handleMovies";
 import { activateListsButton, activateSearchButton, createListButton, listsContainer, loginButton, searchButton, searchContainer } from "./htmlElements";
 import { createMoviesList, showLists } from "./listsPage";
 import viewSearchResults from "./seachPage";
@@ -32,7 +31,6 @@ function addClickEventToButton(button : HTMLButtonElement, callback : any) {
 async function authenticateAndEnablePages() {
   if (!(await authenticate())) return;
   enablePages();
-  getMoviesLists();
 }
 
 function disableLogin() : number {
