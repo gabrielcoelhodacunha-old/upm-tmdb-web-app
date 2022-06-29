@@ -2,7 +2,7 @@ import { authenticate, sessionId } from "./authenticate";
 import { CSS_HIDE_CLASS, CSS_SHOW_CLASS } from "./constants";
 import { getMoviesLists } from "./handleMovies";
 import { activateListsButton, activateSearchButton, createListButton, listsContainer, loginButton, searchButton, searchContainer } from "./htmlElements";
-import { createMoviesList } from "./listsPage";
+import { createMoviesList, showLists } from "./listsPage";
 import viewSearchResults from "./seachPage";
 
 function enableLogin() {
@@ -50,12 +50,14 @@ function enablePages() {
   enableSearchPage();
 }
 
-function enableSearchPage() {
+async function enableSearchPage() {
   enablePage(searchContainer, activateSearchButton);
+  if (document.getElementById("lista")) await viewSearchResults();
 }
 
-function enableListsPage() {
+async function enableListsPage() {
   enablePage(listsContainer, activateListsButton);
+  await showLists();
 }
 
 function enablePage(container : HTMLDivElement, button : HTMLButtonElement) {
@@ -69,6 +71,6 @@ function enablePage(container : HTMLDivElement, button : HTMLButtonElement) {
   button.disabled = true;
 }
 
-export { authenticateAndEnablePages, viewSearchResults, enableLogin };
+export { authenticateAndEnablePages, viewSearchResults, enableLogin, addClickEventToButton };
 
 export default addEventToButtons;

@@ -5,10 +5,12 @@ import { searchContainer, searchInput } from "./htmlElements";
 async function viewSearchResults() {
   let lista = document.getElementById("lista");
   let query = searchInput.value;
-  let movies = await procurarFilme(query);
+  let movies : any;
   let table = document.createElement('table');
   
   if (lista) lista.outerHTML = "";
+  if (!query) return;
+  movies = await procurarFilme(query);
   table.id = "lista";
   table.appendChild(createTableHeader());
   for (const item of movies.results) {

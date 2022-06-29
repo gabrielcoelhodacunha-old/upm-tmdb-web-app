@@ -1,4 +1,4 @@
-type THttpMethod = "GET" | "POST";
+type THttpMethod = "GET" | "POST" | "DELETE";
 
 interface IHttpRequest {
   url: string,
@@ -11,7 +11,6 @@ class HttpClient {
     return new Promise((resolve, reject) => {
       let request = new XMLHttpRequest();
       request.open(method, url, true);
-
       request.onload = () => {
         if (request.status >= 200 && request.status < 300) {
           resolve(JSON.parse(request.responseText));

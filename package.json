@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "cleanup": "rm -rf .cache dist",
-    "dev": "npm run cleanup && parcel ./index.html",
+    "dev": "npm run cleanup && parcel serve ./index.html",
     "start": "parcel serve ./index.html",
     "build": "cross-env NODE_ENV=production parcel build ./index.html --public-url .",
     "deploy": "gh-pages -d dist"
