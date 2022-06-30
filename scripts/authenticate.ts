@@ -1,47 +1,64 @@
-import { BASE_API_URL, GET, POST } from "./constants";
 import { apiKeyInput, loginInput, senhaInput } from "./htmlElements";
-import { HttpClient } from "./httpClient";
-let sessionId : string;
+import { GET, POST } from "./httpMethods";
+import { BASE_API_URL } from "./urls";
+import removeWhiteSpaces from "./removeWhiteSpaces";
+import HttpClient from "./HttpClient";
+import IHttpRequest from "./IHttpRequest";
 
-async function authenticate() : Promise<string> {
+let sessionId : string = "";
+
+async function authenticate() : Promise<void> {
   try {
-    let requestToken = await criarRequestToken();
-    await logar(requestToken);
-    sessionId = await criarSessao(requestToken);
+    const REQUEST_TOKEN = await createRequestToken();
+    await login(REQUEST_TOKEN);
+    await createSession(REQUEST_TOKEN);
   }
-  catch {
-    alert("Credenciais incorretas!");
-    sessionId = "";
-  }
-  return sessionId;
+  catch { alert("Credenciais incorretas!"); }
 }
 
-async function criarRequestToken() : Promise<string> {
-  let result = await HttpClient.get({
-    url: `${BASE_API_URL}/authentication/token/new?api_key=${apiKeyInput.value}`,
-    method: GET
-  });
-  return result.request_token;
+async function createRequestToken() : Promise<string> {
+  const URL = removeWhiteSpaces(
+    `${BASE_API_URL}
+    /authentication/token/new?
+    api_key=${apiKeyInput.value}`
+  );
+  const REQUEST : IHttpRequest = { url: URL, method: GET }
+  const RESULT = await HttpClient.get(REQUEST);
+  return RESULT.request_token;
 }
 
-async function logar(requestToken : string) {
-  await HttpClient.get({
-    url: `${BASE_API_URL}/authentication/token/validate_with_login?api_key=${apiKeyInput.value}`,
+async function login(requestToken : string) : Promise<void> {
+  const URL = removeWhiteSpaces(
+    `${BASE_API_URL}
+    /authentication/token/validate_with_login?
+    api_key=${apiKeyInput.value}`
+  );
+  const REQUEST : IHttpRequest = {
+    url: URL,
     method: POST,
     body: {
       username: loginInput.value,
       password: senhaInput.value,
-      request_token: `${requestToken}`
+      request_token: requestToken
     }
-  });
+  }
+  await HttpClient.get(REQUEST);
 }
 
-async function criarSessao(requestToken : string) : Promise<string> {
-  let result = await HttpClient.get({
-    url: `${BASE_API_URL}/authentication/session/new?api_key=${apiKeyInput.value}&request_token=${requestToken}`,
-    method: GET
-  });
-  return result.session_id;
+async function createSession(requestToken : string) : Promise<void> {
+  const URL = removeWhiteSpaces(
+    `${BASE_API_URL}
+    /authentication/session/new?
+    api_key=${apiKeyInput.value}
+    &request_token=${requestToken}`
+  );
+  const REQUEST : IHttpRequest = { url: URL, method: GET };
+  const RESULT = await HttpClient.get(REQUEST);
+  sessionId = RESULT.session_id;
 }
 
-export { authenticate, sessionId };
+function isLoggedIn() : boolean {
+  return sessionId !== "";
+}
+
+export { authenticate, sessionId, isLoggedIn };

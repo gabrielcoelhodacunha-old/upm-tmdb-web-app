@@ -1,9 +1,12 @@
-import { addClickEventToButton } from "./addEventToButtons";
-import { IMAGES_BASE_URL } from "./constants";
-import { adicionarFilmeNaLista, listasDeFilmes, procurarFilme, removeMovieFromList } from "./handleMovies";
+import addClickEventToButton from "./addClickEventToButton";
+import addMovieToList from "./addMovieToList";
+import { moviesLists } from "./getMoviesLists";
 import { searchContainer, searchInput } from "./htmlElements";
+import removeMovieFromList from "./removeMovieFromList";
+import searchMovie from "./searchMovie";
+import { BASE_IMAGES_URL } from "./urls";
 
-async function viewSearchResults() {
+async function viewSearchResults() : Promise<void> {
   let lista = document.getElementById("lista");
   let query = searchInput.value;
   let movies : any;
@@ -11,7 +14,7 @@ async function viewSearchResults() {
   
   if (lista) lista.outerHTML = "";
   if (!query) return;
-  movies = await procurarFilme(query);
+  movies = await searchMovie(query);
   table.id = "lista";
   table.appendChild(createTableHeader());
   for (const item of movies.results) {
@@ -48,11 +51,11 @@ async function createTableRow(item : any) : Promise<HTMLTableRowElement> {
     image.src = "";
     image.alt = "Image not found!";
   }
-  else image.src = `${IMAGES_BASE_URL}${item.poster_path}`;
+  else image.src = `${BASE_IMAGES_URL}${item.poster_path}`;
   row.appendChild(image);
   title.textContent = item.original_title;
   row.appendChild(title);
-  for (const lista of listasDeFilmes) {
+  for (const lista of moviesLists) {
     const option = document.createElement("option");
     option.value = `list_${lista.id}`;
     option.innerHTML = lista.name;
@@ -60,9 +63,9 @@ async function createTableRow(item : any) : Promise<HTMLTableRowElement> {
   }
   const toggleAddAndRemoveButtons = async () => {
     const listId = select.value.split("_")[1];
-    if (!listasDeFilmes.length) return;
-    const listIndex = listasDeFilmes.findIndex(list => String(list.id) == listId);
-    const isMovieInList = listasDeFilmes[listIndex].movies?.some(movie => movie.id === item.id);
+    if (!moviesLists.length) return;
+    const listIndex = moviesLists.findIndex(list => String(list.id) == listId);
+    const isMovieInList = moviesLists[listIndex].movies?.some(movie => movie.id === item.id);
     if (isMovieInList) {
       addToList.disabled = true;
       removeFromList.disabled = false;
@@ -77,7 +80,7 @@ async function createTableRow(item : any) : Promise<HTMLTableRowElement> {
   addToList.innerHTML = "Adicionar";
   addClickEventToButton(addToList, async () => {
     const listId = select.value.split("_")[1];
-    await adicionarFilmeNaLista(item.id, listId);
+    await addMovieToList(item.id, listId);
     await toggleAddAndRemoveButtons();
   });
   lists.appendChild(addToList);
@@ -89,7 +92,7 @@ async function createTableRow(item : any) : Promise<HTMLTableRowElement> {
   });
   lists.appendChild(removeFromList);
   row.appendChild(lists);
-  if (!listasDeFilmes.length) {
+  if (!moviesLists.length) {
     select.disabled = true;
     addToList.disabled = true;
     removeFromList.disabled = true;

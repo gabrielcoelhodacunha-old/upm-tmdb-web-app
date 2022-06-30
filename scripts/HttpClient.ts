@@ -1,10 +1,4 @@
-type THttpMethod = "GET" | "POST" | "DELETE";
-
-interface IHttpRequest {
-  url: string,
-  method: THttpMethod,
-  body?: any
-}
+import IHttpRequest from "./IHttpRequest";
 
 class HttpClient {
   static async get({url, method, body = null} : IHttpRequest) : Promise<any> {
@@ -31,9 +25,10 @@ class HttpClient {
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         body = JSON.stringify(body);
       }
-      request.send(body);
+      try { request.send(body); }
+      catch {}
     });
   }
 }
 
-export { THttpMethod, IHttpRequest, HttpClient };
+export default HttpClient;

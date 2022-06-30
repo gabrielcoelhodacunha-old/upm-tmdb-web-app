@@ -1,16 +1,20 @@
-import { addClickEventToButton } from "./addEventToButtons";
-import { criarLista, deleteList, getMoviesLists, IMoviesList, listasDeFilmes, removeMovieFromList } from "./handleMovies";
+import addClickEventToButton from "./addClickEventToButton";
+import createList from "./createList";
+import deleteList from "./deleteList";
+import { getMoviesLists, moviesLists } from "./getMoviesLists";
 import { listDescriptionTextarea, listNameInput, listsContainer } from "./htmlElements";
+import IMoviesList from "./IMoviesList";
+import removeMovieFromList from "./removeMovieFromList";
 
-async function createMoviesList() {
+async function createMoviesList() : Promise<void> {
   const name = listNameInput.value;
   const description = listDescriptionTextarea.value;
-  const newList = await criarLista(name, description);
+  const newList = await createList(name, description);
   if (!newList) return;
   await showLists();
 }
 
-async function showLists() {
+async function showLists() : Promise<void> {
   const lists = document.getElementById("lists");
   const table = document.createElement('table');
   
@@ -18,7 +22,7 @@ async function showLists() {
   if (lists) lists.outerHTML = "";
   table.id = "lists";
   table.appendChild(createTableHeader());
-  for (const list of listasDeFilmes) {
+  for (const list of moviesLists) {
     table.appendChild(createTableRow(list));
   }
   listsContainer.appendChild(table);
