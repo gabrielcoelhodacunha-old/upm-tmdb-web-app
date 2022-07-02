@@ -3,7 +3,7 @@ import IHttpRequest from "./IHttpRequest";
 class HttpClient {
   static async get({url, method, body = null} : IHttpRequest) : Promise<any> {
     return new Promise((resolve, reject) => {
-      let request = new XMLHttpRequest();
+      const request = new XMLHttpRequest();
       request.open(method, url, true);
       request.onload = () => {
         if (request.status >= 200 && request.status < 300) {

@@ -9,32 +9,33 @@ let sessionId : string = "";
 
 async function authenticate() : Promise<void> {
   try {
-    const REQUEST_TOKEN = await createRequestToken();
-    await login(REQUEST_TOKEN);
-    await createSession(REQUEST_TOKEN);
+    const requestToken = await createRequestToken();
+    await login(requestToken);
+    await createSession(requestToken);
   }
   catch { alert("Credenciais incorretas!"); }
 }
 
 async function createRequestToken() : Promise<string> {
-  const URL = removeWhiteSpaces(
-    `${BASE_API_URL}
-    /authentication/token/new?
-    api_key=${apiKeyInput.value}`
-  );
-  const REQUEST : IHttpRequest = { url: URL, method: GET }
-  const RESULT = await HttpClient.get(REQUEST);
-  return RESULT.request_token;
+  const request : IHttpRequest = {
+    url: removeWhiteSpaces(
+      `${BASE_API_URL}
+      /authentication/token/new?
+      api_key=${apiKeyInput.value}`
+    ),
+    method: GET
+  }
+  const response = await HttpClient.get(request);
+  return response.request_token;
 }
 
 async function login(requestToken : string) : Promise<void> {
-  const URL = removeWhiteSpaces(
-    `${BASE_API_URL}
-    /authentication/token/validate_with_login?
-    api_key=${apiKeyInput.value}`
-  );
-  const REQUEST : IHttpRequest = {
-    url: URL,
+  const request : IHttpRequest = {
+    url: removeWhiteSpaces(
+      `${BASE_API_URL}
+      /authentication/token/validate_with_login?
+      api_key=${apiKeyInput.value}`
+    ),
     method: POST,
     body: {
       username: loginInput.value,
@@ -42,19 +43,21 @@ async function login(requestToken : string) : Promise<void> {
       request_token: requestToken
     }
   }
-  await HttpClient.get(REQUEST);
+  await HttpClient.get(request);
 }
 
 async function createSession(requestToken : string) : Promise<void> {
-  const URL = removeWhiteSpaces(
-    `${BASE_API_URL}
-    /authentication/session/new?
-    api_key=${apiKeyInput.value}
-    &request_token=${requestToken}`
-  );
-  const REQUEST : IHttpRequest = { url: URL, method: GET };
-  const RESULT = await HttpClient.get(REQUEST);
-  sessionId = RESULT.session_id;
+  const request : IHttpRequest = {
+    url: removeWhiteSpaces(
+      `${BASE_API_URL}
+      /authentication/session/new?
+      api_key=${apiKeyInput.value}
+      &request_token=${requestToken}`
+    ),
+    method: GET
+  };
+  const response = await HttpClient.get(request);
+  sessionId = response.session_id;
 }
 
 function isLoggedIn() : boolean {

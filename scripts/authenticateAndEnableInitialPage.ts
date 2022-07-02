@@ -1,18 +1,16 @@
 import { authenticate, isLoggedIn } from "./authenticate";
 import disableLogin from "./disableLogin";
-import enableListsPage from "./enableListsPage";
 import enableSearchPage from "./enableSearchPage";
 
-async function authenticateAndEnablePages() : Promise<void> {
+async function authenticateAndEnableInitialPage() : Promise<void> {
   await authenticate();
   if (!isLoggedIn) return;
-  await enablePages();
+  await enableInitialPage();
 }
 
-async function enablePages() : Promise<void> {
+async function enableInitialPage() : Promise<void> {
   disableLogin();
-  await enableListsPage();
   await enableSearchPage();
 }
 
-export default authenticateAndEnablePages;
+export default authenticateAndEnableInitialPage;

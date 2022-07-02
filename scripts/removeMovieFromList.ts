@@ -8,9 +8,9 @@ import removeWhiteSpaces from "./removeWhiteSpaces";
 import { BASE_API_URL } from "./urls";
 
 async function removeMovieFromList(
-  movieId : string, listId : string
+  movieId : string, listId : number
 ) : Promise<any> {
-  const REQUEST : IHttpRequest = {
+  const request : IHttpRequest = {
     url: removeWhiteSpaces(
       `${BASE_API_URL}
       /list/${listId}/remove_item?
@@ -20,7 +20,7 @@ async function removeMovieFromList(
     method: POST,
     body: { media_id: movieId }
   };
-  await HttpClient.get(REQUEST);
+  await HttpClient.get(request);
   await getMoviesLists();
 }
 

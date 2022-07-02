@@ -10,7 +10,7 @@ import { BASE_API_URL } from "./urls";
 async function addMovieToList(
   movieId : string, listId : string
 ) : Promise<any> {
-  const REQUEST : IHttpRequest = {
+  const request : IHttpRequest = {
     url: removeWhiteSpaces(
       `${BASE_API_URL}
       /list/${listId}/add_item?
@@ -20,7 +20,7 @@ async function addMovieToList(
     method: POST,
     body: { media_id: movieId }
   }
-  await HttpClient.get(REQUEST);
+  await HttpClient.get(request);
   await getMoviesLists();
 }
 

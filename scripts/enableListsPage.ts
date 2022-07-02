@@ -1,6 +1,6 @@
 import { activateListsButton, listsContainer } from "./htmlElements";
-import { showLists } from "./listsPage";
 import enablePage from "./enablePage";
+import showLists from "./showLists";
 
 async function enableListsPage() : Promise<void> {
   enablePage(listsContainer, activateListsButton);

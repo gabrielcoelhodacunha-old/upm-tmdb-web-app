@@ -11,18 +11,20 @@ import { BASE_API_URL } from "./urls";
 let moviesLists : IMoviesList[];
 
 async function getMoviesLists() : Promise<void> {
-  const URL : string = removeWhiteSpaces(
-    `${BASE_API_URL}
-    /account/${loginInput.value}/lists?
-    api_key=${apiKeyInput.value}
-    &session_id=${sessionId}`
-  );
-  const REQUEST : IHttpRequest = { url: URL, method: GET };
-  const RESULT = await HttpClient.get(REQUEST);
+  const request : IHttpRequest = {
+    url: removeWhiteSpaces(
+      `${BASE_API_URL}
+      /account/${loginInput.value}/lists?
+      api_key=${apiKeyInput.value}
+      &session_id=${sessionId}`
+    ),
+    method: GET
+  };
+  const response = await HttpClient.get(request);
   moviesLists = [];
-  for (let {id, name, description} of RESULT.results) {
-    let list = await getListById(id);
-    let movies = list.items;
+  for (const {id, name, description} of response.results) {
+    const list = await getListById(id);
+    const movies = list.items;
     moviesLists.push({id, name, description, movies});
   }
 }

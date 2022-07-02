@@ -11,9 +11,9 @@ function enablePage(
 }
 
 function hideAllPagesContainers() : void {
-  const CONTAINERS = document.querySelectorAll("#pesquisar_ou_listas div");
+  const containers = document.querySelectorAll("#pesquisar_ou_listas div");
   
-  CONTAINERS.forEach(container => hideElement(container));
+  containers.forEach(container => hideElement(container));
 }
 
 function disableAllPagesButtons() : void {

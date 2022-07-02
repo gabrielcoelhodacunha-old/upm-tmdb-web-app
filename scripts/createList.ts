@@ -15,14 +15,13 @@ async function createList(
     return alert(`A lista '${name}' ja existe!`);
   }
   if (!name) return alert(`O campo 'Nome' deve ser preenchido!`);
-  const URL : string = removeWhiteSpaces(
-    `${BASE_API_URL}
-    /list?
-    api_key=${apiKeyInput.value}
-    &session_id=${sessionId}`
-  );
-  const REQUEST : IHttpRequest = {
-    url: URL,
+  const request : IHttpRequest = {
+    url: removeWhiteSpaces(
+      `${BASE_API_URL}
+      /list?
+      api_key=${apiKeyInput.value}
+      &session_id=${sessionId}`
+    ),
     method: POST,
     body: {
       name: name,
@@ -30,8 +29,8 @@ async function createList(
       language: "pt-br"
     }
   };
-  const RESULT = await HttpClient.get(REQUEST);
-  return {id: RESULT.list_id, name, description} as IMoviesList;
+  const response = await HttpClient.get(request);
+  return {id: response.list_id, name, description} as IMoviesList;
 }
 
 export default createList;

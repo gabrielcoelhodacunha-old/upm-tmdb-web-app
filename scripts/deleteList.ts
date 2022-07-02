@@ -8,14 +8,16 @@ import { BASE_API_URL } from "./urls";
 
 async function deleteList(listId : number) : Promise<void> {
   try {
-    const URL : string = removeWhiteSpaces(
-      `${BASE_API_URL}
-      /list/${listId}?
-      api_key=${apiKeyInput.value}
-      &session_id=${sessionId}`
-    );
-    const REQUEST : IHttpRequest = { url: URL, method: DELETE };
-    await HttpClient.get(REQUEST);
+    const request : IHttpRequest = {
+      url: removeWhiteSpaces(
+        `${BASE_API_URL}
+        /list/${listId}?
+        api_key=${apiKeyInput.value}
+        &session_id=${sessionId}`
+      ),
+      method: DELETE
+    };
+    await HttpClient.get(request);
   } catch {};
 }
 

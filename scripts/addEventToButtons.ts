@@ -1,14 +1,14 @@
 import { activateListsButton, activateSearchButton, createListButton,
   loginButton, searchButton } from "./htmlElements";
-import { createMoviesList } from "./listsPage";
-import viewSearchResults from "./seachPage";
+import createMoviesList from "./createMoviesList";
+import viewSearchResults from "./viewSearchResults";
 import addClickEventToButton from "./addClickEventToButton";
-import authenticateAndEnablePages from "./authenticateAndEnablePages";
+import authenticateAndEnableInitialPage from "./authenticateAndEnableInitialPage";
 import enableListsPage from "./enableListsPage";
 import enableSearchPage from "./enableSearchPage";
 
 function addEventToButtons() : void {
-  addClickEventToButton(loginButton, authenticateAndEnablePages);
+  addClickEventToButton(loginButton, authenticateAndEnableInitialPage);
   addClickEventToButton(searchButton, viewSearchResults);
   addClickEventToButton(activateSearchButton, enableSearchPage);
   addClickEventToButton(activateListsButton, enableListsPage);
