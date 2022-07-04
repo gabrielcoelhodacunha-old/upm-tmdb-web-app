@@ -1,6 +1,6 @@
-import createList from "./createList";
-import { listDescriptionTextarea, listNameInput } from "./htmlElements";
-import showLists from "./showLists";
+import createList from "tmdb/createList";
+import { listDescriptionTextarea, listNameInput } from "constants/htmlElements";
+import showLists from "lists/showLists";
 
 async function createMoviesList() : Promise<void> {
   const name = listNameInput.value;

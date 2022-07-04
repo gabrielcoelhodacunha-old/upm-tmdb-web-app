@@ -1,4 +1,4 @@
-import IHttpRequest from "./IHttpRequest";
+import IHttpRequest from "utils/IHttpRequest";
 
 class HttpClient {
   static async get({url, method, body = null} : IHttpRequest) : Promise<any> {

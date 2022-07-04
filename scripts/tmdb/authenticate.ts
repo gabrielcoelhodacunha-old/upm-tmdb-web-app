@@ -1,9 +1,9 @@
-import { apiKeyInput, loginInput, senhaInput } from "./htmlElements";
-import { GET, POST } from "./httpMethods";
-import { BASE_API_URL } from "./urls";
-import removeWhiteSpaces from "./removeWhiteSpaces";
-import HttpClient from "./HttpClient";
-import IHttpRequest from "./IHttpRequest";
+import { apiKeyInput, loginInput, senhaInput } from "constants/htmlElements";
+import { GET, POST } from "constants/httpMethods";
+import { BASE_API_URL } from "constants/urls";
+import removeAllWhiteSpaces from "utils/removeAllWhiteSpaces";
+import HttpClient from "utils/HttpClient";
+import IHttpRequest from "utils/IHttpRequest";
 
 let sessionId : string = "";
 
@@ -18,7 +18,7 @@ async function authenticate() : Promise<void> {
 
 async function createRequestToken() : Promise<string> {
   const request : IHttpRequest = {
-    url: removeWhiteSpaces(
+    url: removeAllWhiteSpaces(
       `${BASE_API_URL}
       /authentication/token/new?
       api_key=${apiKeyInput.value}`
@@ -31,7 +31,7 @@ async function createRequestToken() : Promise<string> {
 
 async function login(requestToken : string) : Promise<void> {
   const request : IHttpRequest = {
-    url: removeWhiteSpaces(
+    url: removeAllWhiteSpaces(
       `${BASE_API_URL}
       /authentication/token/validate_with_login?
       api_key=${apiKeyInput.value}`
@@ -48,7 +48,7 @@ async function login(requestToken : string) : Promise<void> {
 
 async function createSession(requestToken : string) : Promise<void> {
   const request : IHttpRequest = {
-    url: removeWhiteSpaces(
+    url: removeAllWhiteSpaces(
       `${BASE_API_URL}
       /authentication/session/new?
       api_key=${apiKeyInput.value}

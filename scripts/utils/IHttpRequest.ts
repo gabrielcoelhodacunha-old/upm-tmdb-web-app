@@ -1,4 +1,4 @@
-import THttpMethod from "./THttpMethod";
+import THttpMethod from "utils/THttpMethod";
 
 interface IHttpRequest {
   url: string,

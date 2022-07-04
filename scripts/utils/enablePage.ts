@@ -1,5 +1,5 @@
-import { CSS_HIDE_CLASS, CSS_SHOW_CLASS } from "./css";
-import toggleElements from "./toggleElements";
+import { CSS_HIDE_CLASS, CSS_SHOW_CLASS } from "constants/css";
+import toggleElements from "utils/toggleElements";
 
 function enablePage(
   container : HTMLDivElement, button : HTMLButtonElement

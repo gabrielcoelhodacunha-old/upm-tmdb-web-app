@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "cleanup": "rm -rf .cache dist",
+    "cleanup": "rm -rf .*cache dist",
     "dev": "npm run cleanup && parcel serve ./index.html",
     "start": "parcel serve ./index.html",
     "build": "cross-env NODE_ENV=production parcel build ./index.html --public-url .",
@@ -12,6 +12,15 @@
   },
   "author": "",
   "license": "ISC",
+  "alias": {
+    "scripts": "./scripts",
+    "utils": "./scripts/utils",
+    "tmdb": "./scripts/tmdb",
+    "constants": "./scripts/constants",
+    "login": "./scripts/login",
+    "lists": "./scripts/lists",
+    "search": "./scripts/search"
+  },
   "devDependencies": {
     "cross-env": "^7.0.3",
     "gh-pages": "^4.0.0",

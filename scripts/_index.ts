@@ -1,6 +1,6 @@
-import addEventToInputs from "./addEventToInputs";
-import addEventToButtons from "./addEventToButtons";
-import enableLogin from "./enableLogin";
+import addEventToButtons from "scripts/addEventToButtons";
+import addEventToInputs from "scripts/addEventToInputs";
+import enableLogin from "scripts/enableLogin";
 
 function main() : void {
   addEventToInputs();

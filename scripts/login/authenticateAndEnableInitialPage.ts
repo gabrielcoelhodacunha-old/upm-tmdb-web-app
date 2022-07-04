@@ -1,6 +1,7 @@
-import { authenticate, isLoggedIn } from "./authenticate";
-import disableLogin from "./disableLogin";
-import enableSearchPage from "./enableSearchPage";
+import { authenticate, isLoggedIn } from "tmdb/authenticate";
+import disableLogin from "login/disableLogin";
+import enableSearchPage from "search/enableSearchPage";
+import enableListsPage from "lists/enableListsPage";
 
 async function authenticateAndEnableInitialPage() : Promise<void> {
   await authenticate();
@@ -10,6 +11,7 @@ async function authenticateAndEnableInitialPage() : Promise<void> {
 
 async function enableInitialPage() : Promise<void> {
   disableLogin();
+  enableListsPage();
   await enableSearchPage();
 }
 

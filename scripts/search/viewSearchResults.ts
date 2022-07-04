@@ -1,12 +1,12 @@
-import addClickEventToButton from "./addClickEventToButton";
-import addMovieToList from "./addMovieToList";
-import createTableHeader from "./createTableHeader";
-import createTableRow from "./createTableRow";
-import { moviesLists } from "./getMoviesLists";
-import { searchContainer, searchInput } from "./htmlElements";
-import removeMovieFromList from "./removeMovieFromList";
-import searchMovie from "./searchMovie";
-import { BASE_IMAGES_URL } from "./urls";
+import addClickEventToButton from "utils/addClickEventToButton";
+import addMovieToList from "tmdb/addMovieToList";
+import createTableHeader from "utils/createTableHeader";
+import createTableRow from "utils/createTableRow";
+import { moviesLists } from "tmdb/getMoviesLists";
+import { searchContainer, searchInput } from "constants/htmlElements";
+import removeMovieFromList from "tmdb/removeMovieFromList";
+import searchMovie from "tmdb/searchMovie";
+import { BASE_IMAGES_URL } from "constants/urls";
 
 async function viewSearchResults() : Promise<void> {
   const lista = document.getElementById("lista");
@@ -24,7 +24,7 @@ async function viewSearchResults() : Promise<void> {
   for (const movie of movies.results) {
     const elements = [
       [createImage(movie)],
-      [document.createTextNode(movie.original_title)],
+      [document.createTextNode(movie.title)],
       createLists(movie)
     ];
     table.appendChild(createTableRow(elements));
@@ -32,16 +32,16 @@ async function viewSearchResults() : Promise<void> {
   searchContainer.appendChild(table);
 }
 
-function createImage({poster_path, original_title} : any) : HTMLImageElement {
+function createImage({poster_path, title} : any) : HTMLImageElement {
   const image = document.createElement("img");
 
   if (!poster_path) {
     image.src = "";
-    image.alt = `Poster image not found for ${original_title}`;
+    image.alt = "Poster image not found!";
   }
   else {
     image.src = `${BASE_IMAGES_URL}${poster_path}`;
-    image.alt = `Poster image for ${original_title}`;
+    image.alt = `Poster image for ${title}`;
   }
 
   return image;

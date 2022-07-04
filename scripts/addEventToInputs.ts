@@ -1,7 +1,7 @@
-import { apiKeyInput, loginInput, searchInput, senhaInput } from "./htmlElements";
-import addEnterEventToInput from "./addEnterEventToInput";
-import viewSearchResults from "./viewSearchResults";
-import authenticateAndEnableInitialPage from "./authenticateAndEnableInitialPage";
+import { apiKeyInput, loginInput, searchInput, senhaInput } from "constants/htmlElements";
+import addEnterEventToInput from "utils/addEnterEventToInput";
+import viewSearchResults from "search/viewSearchResults";
+import authenticateAndEnableInitialPage from "login/authenticateAndEnableInitialPage";
 
 function addEventToInputs() : void {
   addEnterEventToInput(loginInput, authenticateAndEnableInitialPage);

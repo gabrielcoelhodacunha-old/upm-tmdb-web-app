@@ -1,4 +1,4 @@
-import toggleElements from "./toggleElements";
+import toggleElements from "utils/toggleElements";
 
 function disableLogin() : void {
   enableAllInputs();

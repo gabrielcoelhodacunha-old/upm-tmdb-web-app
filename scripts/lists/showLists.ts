@@ -1,11 +1,11 @@
-import addClickEventToButton from "./addClickEventToButton";
-import createTableHeader from "./createTableHeader";
-import createTableRow from "./createTableRow";
-import deleteList from "./deleteList";
-import { getMoviesLists, moviesLists } from "./getMoviesLists";
-import { listsContainer } from "./htmlElements";
-import IMoviesList from "./IMoviesList";
-import removeMovieFromList from "./removeMovieFromList";
+import addClickEventToButton from "utils/addClickEventToButton";
+import createTableHeader from "utils/createTableHeader";
+import createTableRow from "utils/createTableRow";
+import deleteList from "tmdb/deleteList";
+import { getMoviesLists, moviesLists } from "tmdb/getMoviesLists";
+import { listsContainer } from "constants/htmlElements";
+import IMoviesList from "utils/IMoviesList";
+import removeMovieFromList from "tmdb/removeMovieFromList";
 
 async function showLists() : Promise<void> {
   const lists = document.getElementById("lists");
@@ -47,7 +47,7 @@ function createMoviesInList({movies, id} : IMoviesList) : Element[] {
   for (const movie of movies) {
     const option = document.createElement("option");
     option.value = `movie_${movie.id}`;
-    option.textContent = movie.original_title;
+    option.textContent = movie.title;
     select.appendChild(option);
   }
   button.textContent = "Deletar filme da lista";

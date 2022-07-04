@@ -16,7 +16,18 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+  
+    "baseUrl": "scripts",
+    "paths": {
+      "scripts/*": ["./*"],
+      "utils/*": ["utils/*"],
+      "tmdb/*": ["tmdb/*"],
+      "constants/*": ["constants/*"],
+      "login/*": ["login/*"],
+      "lists/*": ["lists/*"],
+      "search/*": ["search/*"]
+    }
   },
   "include": [
     "scripts/**/*"
