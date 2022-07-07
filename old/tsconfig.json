@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "newLine": "LF",
+    "outDir": "./lib/",
+    "target": "es6",
+    "sourceMap": true,
+    "declaration": true,
+    "jsx": "preserve",
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+  
+    "baseUrl": "scripts",
+    "paths": {
+      "scripts/*": ["./*"],
+      "utils/*": ["utils/*"],
+      "tmdb/*": ["tmdb/*"],
+      "constants/*": ["constants/*"],
+      "login/*": ["login/*"],
+      "lists/*": ["lists/*"],
+      "search/*": ["search/*"]
+    }
+  },
+  "include": [
+    "scripts/**/*"
+  ],
+  "exclude": [
+    ".git",
+    "node_modules"
+  ]
+}

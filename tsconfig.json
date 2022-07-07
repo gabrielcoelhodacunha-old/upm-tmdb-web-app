@@ -1,39 +1,26 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "newLine": "LF",
-    "outDir": "./lib/",
-    "target": "es6",
-    "sourceMap": true,
-    "declaration": true,
-    "jsx": "preserve",
+    "target": "es5",
     "lib": [
-      "es2017",
-      "dom"
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-  
-    "baseUrl": "scripts",
-    "paths": {
-      "scripts/*": ["./*"],
-      "utils/*": ["utils/*"],
-      "tmdb/*": ["tmdb/*"],
-      "constants/*": ["constants/*"],
-      "login/*": ["login/*"],
-      "lists/*": ["lists/*"],
-      "search/*": ["search/*"]
-    }
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve"
   },
   "include": [
-    "scripts/**/*"
-  ],
-  "exclude": [
-    ".git",
-    "node_modules"
+    "src"
   ]
 }
