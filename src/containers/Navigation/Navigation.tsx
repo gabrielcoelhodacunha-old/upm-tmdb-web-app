@@ -1,28 +1,39 @@
-import React, { PropsWithChildren, useState } from "react"
-import { useNavigate } from "react-router"
+import { useEffect, useRef } from 'react';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
+type TObject = { [key: string]: any };
 
-function NavigationContainer(
-{ children } : PropsWithChildren
-) : JSX.Element {
-  const [disabled, setDisabled] = useState(true)
-  const navigate = useNavigate();
-  const goToRoute = (route : string) => {
-    navigate(route)
-    setDisabled(!disabled)
-  }
+function NavigationContainer(): JSX.Element {
+	const navigateTo = useNavigate();
+	const location = useLocation();
+	const routes = { search: useRef(null), lists: useRef(null) } as TObject;
 
-  return (
-    <div id="pesquisar_ou_listas">
-      <button id="activate_search_button"
-        disabled={disabled}
-        onClick={() => goToRoute("/search")}>Pesquisar</button>
-      <button id="activate_lists_button"
-        disabled={!disabled}
-        onClick={() => goToRoute("/lists")}>Listas</button>
-      {children}
-    </div>
-  )
+	useEffect(() => {
+		const route = location.pathname.split('/')[1];
+		Object.keys(routes).forEach(
+			(key) => (routes[key].current.disabled = key === route ? true : false)
+		);
+	}, [location]);
+
+	return (
+		<div id='pesquisar_ou_listas'>
+			<button
+				ref={routes.search}
+				id='activate_search_button'
+				onClick={() => navigateTo('search')}
+			>
+				Pesquisar
+			</button>
+			<button
+				ref={routes.lists}
+				id='activate_lists_button'
+				onClick={() => navigateTo('lists')}
+			>
+				Listas
+			</button>
+			<Outlet />
+		</div>
+	);
 }
 
-export default NavigationContainer
+export default NavigationContainer;

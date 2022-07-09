@@ -1,11 +1,11 @@
 import LoginContainer from "./Login/Login"
-import NavigationContainer from "./Navigation/Navigation"
 import SearchContainer from "./Search/Search"
 import ListsContainer from "./Lists/Lists"
+import NavigationContainer from "./Navigation/Navigation"
 
 export {
   LoginContainer,
-  NavigationContainer,
   SearchContainer,
-  ListsContainer
+  ListsContainer,
+  NavigationContainer
 }

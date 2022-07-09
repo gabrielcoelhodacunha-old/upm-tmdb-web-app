@@ -1,6 +1,4 @@
-// Import all components
+import Header from './Header/Header';
+import LabelledInput from './LabelledInput/LabelledInput';
 
-// Export all components
-export {
-
-}
+export { Header, LabelledInput };
