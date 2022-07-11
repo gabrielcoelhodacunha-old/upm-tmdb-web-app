@@ -1,13 +1,12 @@
-import { ChangeEvent, useId } from 'react';
+import { forwardRef, useId } from 'react';
 
-function LabelledInput({ label, type, onChange }: Props): JSX.Element {
+function LabelledInput(props: Props): JSX.Element {
+	const { label, type, _ref } = props;
 	const id = useId();
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
-		onChange(event.target.value);
 	return (
 		<div>
 			<label htmlFor={id}>{label}</label>
-			<input id={id} type={type} onChange={handleChange} />
+			<Input ref={_ref} id={id} type={type} />
 		</div>
 	);
 }
@@ -15,7 +14,16 @@ function LabelledInput({ label, type, onChange }: Props): JSX.Element {
 type Props = {
 	label: string;
 	type?: string;
-	onChange(value: string): void;
+	_ref?: any;
+};
+
+const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => (
+	<input {...props} ref={ref} />
+));
+
+type InputProps = {
+	id: string;
+	type?: string;
 };
 
 export default LabelledInput;

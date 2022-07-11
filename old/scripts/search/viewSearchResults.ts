@@ -1,4 +1,4 @@
-import addClickEventToButton from "utils/addClickEventToButton";
+port addClickEventToButton from "utils/addClickEventToButton";
 import addMovieToList from "tmdb/addMovieToList";
 import createTableHeader from "utils/createTableHeader";
 import createTableRow from "utils/createTableRow";

@@ -11,24 +11,16 @@ function NavigationContainer(): JSX.Element {
 	useEffect(() => {
 		const route = location.pathname.split('/')[1];
 		Object.keys(routes).forEach(
-			(key) => (routes[key].current.disabled = key === route ? true : false)
+			(key) => (routes[key].current.disabled = key === route)
 		);
-	}, [location]);
+	});
 
 	return (
 		<div id='pesquisar_ou_listas'>
-			<button
-				ref={routes.search}
-				id='activate_search_button'
-				onClick={() => navigateTo('search')}
-			>
+			<button ref={routes.search} onClick={() => navigateTo('search')}>
 				Pesquisar
 			</button>
-			<button
-				ref={routes.lists}
-				id='activate_lists_button'
-				onClick={() => navigateTo('lists')}
-			>
+			<button ref={routes.lists} onClick={() => navigateTo('lists')}>
 				Listas
 			</button>
 			<Outlet />

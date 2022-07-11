@@ -1,7 +1,7 @@
 import { cleanup, render, screen } from '@testing-library/react/pure';
 import Login from './Login';
 
-describe('Login component', () => {
+describe('Login container', () => {
 	beforeAll(() => render(<Login />));
 	afterAll(cleanup);
 
@@ -18,5 +18,10 @@ describe('Login component', () => {
 	it('should render api key field', () => {
 		const apiKey = screen.getByLabelText('Api Key');
 		expect(apiKey).toBeInTheDocument();
+	});
+
+	it('should render login button', () => {
+		const loginButton = screen.getByRole('button');
+		expect(loginButton).toBeInTheDocument();
 	});
 });
