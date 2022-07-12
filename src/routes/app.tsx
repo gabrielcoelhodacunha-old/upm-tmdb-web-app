@@ -1,38 +1,28 @@
-import { StrictMode } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HomeRoute from './home';
+import TRoute from './TRoute';
 
-import App from '../App';
-import {
-	ListsContainer,
-	LoginContainer,
-	NavigationContainer,
-	SearchContainer,
-} from '../containers';
+const routes: TRoute[] = [HomeRoute];
 
-const isLogged = true;
-
-function AppRoutes() {
+function AppRouter(): JSX.Element {
 	return (
-		<StrictMode>
-			<BrowserRouter>
-				<Routes>
-					<Route path='/' element={<App />}>
-						<Route
-							index
-							element={
-								isLogged ? <Navigate to='search' /> : <Navigate to='login' />
-							}
-						/>
-						<Route path='login' element={<LoginContainer />} />
-						<Route element={<NavigationContainer />}>
-							<Route path='search' element={<SearchContainer />} />
-							<Route path='lists' element={<ListsContainer />} />;
-						</Route>
-					</Route>
-				</Routes>
-			</BrowserRouter>
-		</StrictMode>
+		<BrowserRouter>
+			<Routes>{routes.map((route, index) => renderRoute(route, index))}</Routes>
+		</BrowserRouter>
 	);
 }
 
-export default AppRoutes;
+function renderRoute(
+	{ element, path, index, children }: TRoute,
+	key: number
+): JSX.Element {
+	return (
+		<Route element={element} path={path} index={index} key={key}>
+			{children
+				? children.map((route, index) => renderRoute(route, index))
+				: null}
+		</Route>
+	);
+}
+
+export default AppRouter;
