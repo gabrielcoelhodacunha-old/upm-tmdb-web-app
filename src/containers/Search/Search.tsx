@@ -12,15 +12,15 @@ function SearchContainer(): JSX.Element {
 			{ id: '3', title: 'Tres' },
 		],
 		lists: [
-			{ id: '1', name: 'Listao' },
-			{ id: '2', name: 'Oat' },
+			{ id: '1', name: 'Anime' },
+			{ id: '2', name: 'Filmes baseados em jogos' },
 		],
 	};
 	return (
 		<div id='search_container'>
 			<LabelledInput {...titleProps} />
 			<button onClick={() => {}}>Pesquisar</button>
-			<MovieTable {...tableProps} />
+			{tableProps.movies.length ? <MovieTable {...tableProps} /> : null}
 		</div>
 	);
 }

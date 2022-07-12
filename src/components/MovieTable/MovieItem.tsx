@@ -1,4 +1,6 @@
 function MovieItem({ id, title, image }: Props, lists: any[]) {
+	const hasLists = lists.length > 0;
+	const isMovieInSelectedList = false;
 	return {
 		Filme: (
 			<div>
@@ -8,16 +10,25 @@ function MovieItem({ id, title, image }: Props, lists: any[]) {
 		),
 		Listas: (
 			<div>
-				<select disabled={!lists?.length}>
-					{lists &&
-						lists.map((list) => (
-							<option key={list.id} value={list.id}>
-								{list.name}
-							</option>
-						))}
+				<select disabled={!lists.length}>
+					{lists.map((list) => (
+						<option key={list.id} value={list.id}>
+							{list.name}
+						</option>
+					))}
 				</select>
-				<button>Adicionar</button>
-				<button>Remover</button>
+				<button
+					onClick={() => {}}
+					disabled={!hasLists || isMovieInSelectedList}
+				>
+					Adicionar
+				</button>
+				<button
+					onClick={() => {}}
+					disabled={!hasLists || !isMovieInSelectedList}
+				>
+					Remover
+				</button>
 			</div>
 		),
 	};

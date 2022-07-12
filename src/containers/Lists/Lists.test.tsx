@@ -16,7 +16,7 @@ describe('Lists container', () => {
 	});
 
 	it('should render create list button', () => {
-		const createListButton = screen.getByRole('button');
+		const createListButton = screen.getByRole('button', { name: /Criar/ });
 		expect(createListButton).toBeInTheDocument();
 	});
 });
