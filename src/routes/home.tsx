@@ -1,7 +1,8 @@
 import { Navigate } from 'react-router-dom';
-import { Header } from '../components';
+import { Layout } from '../components';
+import ListsRoute from './lists';
 import LoginRoute from './login';
-import NavigationRoute from './navigation';
+import SearchRoute from './search';
 import TRoute from './TRoute';
 
 const isLogged = true;
@@ -12,9 +13,9 @@ const IndexRoute: TRoute = {
 };
 
 const HomeRoute: TRoute = {
-	element: <Header />,
+	element: <Layout />,
 	path: '/',
-	children: [IndexRoute, LoginRoute, NavigationRoute],
+	children: [IndexRoute, LoginRoute, SearchRoute, ListsRoute],
 };
 
 export default HomeRoute;

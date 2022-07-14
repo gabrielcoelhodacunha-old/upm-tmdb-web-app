@@ -11,18 +11,22 @@ function LoginContainer() {
 	const passwordProps = { ...props, label: 'Password', _ref: password };
 	const apiKeyProps = { ...props, label: 'Api Key', _ref: apiKey };
 
-	const onClick = () => {
+	const submit = () => {
 		localStorage.setItem('sessionId', '12345');
-		[login, password, apiKey].forEach((i) => console.log(i.current));
 	};
 
 	return (
-		<div id='login_container'>
+		<form
+			onSubmit={(event) => {
+				event.preventDefault();
+				submit();
+			}}
+		>
 			<LabelledInput {...loginProps} />
 			<LabelledInput {...passwordProps} />
 			<LabelledInput {...apiKeyProps} />
-			<button onClick={onClick}>Login</button>
-		</div>
+			<button>Login</button>
+		</form>
 	);
 }
 

@@ -1,24 +1,15 @@
-function Table(props: Props): JSX.Element {
+import TableBody from './TableBody';
+import TableHead from './TableHead';
+
+function Table({ data, columns }: Props): JSX.Element {
 	let rowNumber = 0;
-	const { data, columns } = props;
+
+	const headProps = { columns };
+	const bodyProps = { data, columns, rowNumber };
 	return (
 		<table>
-			<thead>
-				<tr>
-					{columns.map((column) => (
-						<th key={`column-${column}`}>{column}</th>
-					))}
-				</tr>
-			</thead>
-			<tbody>
-				{data.map((row) => (
-					<tr key={`row-${rowNumber++}`}>
-						{columns.map((column) => (
-							<td key={`column-${column}`}>{row[column]}</td>
-						))}
-					</tr>
-				))}
-			</tbody>
+			<TableHead {...headProps} />
+			<TableBody {...bodyProps} />
 		</table>
 	);
 }

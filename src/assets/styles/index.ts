@@ -1,3 +1,4 @@
 import GlobalStyle from './global';
+import LabelStyle from './label';
 
-export { GlobalStyle };
+export { GlobalStyle, LabelStyle };

@@ -1,28 +1,19 @@
-function ListItem({ id, name, description, items }: Props) {
+import ListDescription from './ListDescription';
+import ListMovies from './ListMovies';
+import ListName from './ListName';
+
+function ListItem({ id, name, description, items }: TList) {
+	const nameProps = { id, name };
+	const descriptionProps = { description };
+	const moviesProps = { items };
 	return {
-		Nome: (
-			<div>
-				<button>Deletar lista</button>
-				<p>{name}</p>
-			</div>
-		),
-		Descricao: <p>{description}</p>,
-		Filmes: (
-			<div>
-				<select disabled={!items.length}>
-					{items.map((item) => (
-						<option key={item.id} value={item.id}>
-							{item.title}
-						</option>
-					))}
-				</select>
-				<button>Deletar filme da lista</button>
-			</div>
-		),
+		Nome: <ListName {...nameProps} />,
+		Descricao: <ListDescription {...descriptionProps} />,
+		Filmes: <ListMovies {...moviesProps} />,
 	};
 }
 
-type Props = {
+type TList = {
 	id: string;
 	name: string;
 	description: string;

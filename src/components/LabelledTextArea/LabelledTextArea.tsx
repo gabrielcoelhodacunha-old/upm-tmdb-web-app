@@ -1,13 +1,13 @@
-import { forwardRef, useId } from 'react';
+import { forwardRef } from 'react';
+import { LabelStyle } from '../../assets/styles';
 
-function LabelledTextArea(props: Props): JSX.Element {
-	const { label, _ref } = props;
-	const id = useId();
+function LabelledTextArea({ label, _ref }: Props): JSX.Element {
+	const textAreaProps = { ref: _ref };
 	return (
-		<div>
-			<label htmlFor={id}>{label}</label>
-			<TextArea ref={_ref} id={id} />
-		</div>
+		<LabelStyle>
+			{label}
+			<TextArea {...textAreaProps} />
+		</LabelStyle>
 	);
 }
 
@@ -20,8 +20,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 	(props, ref) => <textarea {...props} ref={ref} />
 );
 
-type TextAreaProps = {
-	id: string;
-};
+type TextAreaProps = {};
 
 export default LabelledTextArea;

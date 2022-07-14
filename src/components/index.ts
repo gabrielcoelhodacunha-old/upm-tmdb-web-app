@@ -4,6 +4,7 @@ import LabelledTextArea from './LabelledTextArea/LabelledTextArea';
 import Table from './Table/Table';
 import MovieTable from './MovieTable/MovieTable';
 import ListTable from './ListTable/ListTable';
+import Layout from './Layout/Layout';
 
 export {
 	Header,
@@ -12,4 +13,5 @@ export {
 	Table,
 	MovieTable,
 	ListTable,
+	Layout,
 };

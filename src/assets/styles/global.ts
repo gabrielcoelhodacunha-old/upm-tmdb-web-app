@@ -38,6 +38,11 @@ const GlobalStyle = createGlobalStyle`
     height: 40vh;
     border-radius: 10px;
   }
+
+  form {
+    margin: 0px;
+    padding: 0px;
+  }
 `;
 
 export default GlobalStyle;

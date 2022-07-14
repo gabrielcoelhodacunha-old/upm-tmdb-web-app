@@ -1,5 +1,5 @@
 import { cleanup, render, screen } from '@testing-library/react/pure';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Navigation from './Navigation';
 
 describe('Navigation container', () => {
