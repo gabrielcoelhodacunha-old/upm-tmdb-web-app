@@ -5,17 +5,17 @@ import { TUser } from 'common/types';
 import { useNavigate } from 'react-router-dom';
 
 function LoginContainer() {
-	const login = useRef<HTMLInputElement>(null);
+	const username = useRef<HTMLInputElement>(null);
 	const password = useRef<HTMLInputElement>(null);
 	const apiKey = useRef<HTMLInputElement>(null);
 	const navigateTo = useNavigate();
 
 	const props = { type: 'password' };
-	const loginProps = {
+	const usernameProps = {
 		...props,
-		id: 'login',
-		label: 'Login',
-		_ref: login,
+		id: 'username',
+		label: 'Username',
+		_ref: username,
 	};
 	const passwordProps = {
 		...props,
@@ -32,7 +32,7 @@ function LoginContainer() {
 
 	const submit = async () => {
 		const inputs = {
-			username: login.current,
+			username: username.current,
 			password: password.current,
 			apiKey: apiKey.current,
 		};
@@ -52,10 +52,10 @@ function LoginContainer() {
 				submit();
 			}}
 		>
-			<LabelledInput {...loginProps} />
+			<LabelledInput {...usernameProps} />
 			<LabelledInput {...passwordProps} />
 			<LabelledInput {...apiKeyProps} />
-			<button>Login</button>
+			<button>Log In</button>
 		</form>
 	);
 }

@@ -1,16 +1,15 @@
-import { useMemo, useRef } from 'react';
 import { LabelledInput } from 'components';
 
-function SearchForm({}: Props): JSX.Element {
-	const title = useRef(null);
-
-	const titleProps = useMemo(() => {
-		return { label: 'Titulo', _ref: title };
-	}, [title]);
+function SearchForm({ titleRef, search }: Props): JSX.Element {
+	const titleProps = {
+		label: 'Titulo',
+		_ref: titleRef,
+	};
 	return (
 		<form
 			onSubmit={(event) => {
 				event.preventDefault();
+				search();
 			}}
 		>
 			<LabelledInput {...titleProps} />
@@ -19,6 +18,9 @@ function SearchForm({}: Props): JSX.Element {
 	);
 }
 
-type Props = {};
+type Props = {
+	titleRef: any;
+	search(): void;
+};
 
 export default SearchForm;

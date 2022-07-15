@@ -22,7 +22,7 @@ function Navigation(): JSX.Element {
 	}, [location]);
 
 	const logOut = async () => {
-		deleteSession();
+		await deleteSession();
 		navigateTo('/');
 	};
 	return (

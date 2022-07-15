@@ -1,5 +1,5 @@
 import { SearchContainer } from 'pages';
-import TRoute from './TRoute';
+import TRoute from 'routes/TRoute';
 
 const SearchRoute: TRoute = {
 	element: <SearchContainer />,

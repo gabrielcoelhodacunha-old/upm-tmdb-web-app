@@ -1,5 +1,5 @@
 import { ListsContainer } from 'pages';
-import TRoute from './TRoute';
+import TRoute from 'routes/TRoute';
 
 const ListsRoute: TRoute = {
 	element: <ListsContainer />,

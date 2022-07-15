@@ -1,13 +1,20 @@
 import { cleanup, render, screen } from '@testing-library/react/pure';
+import { BrowserRouter } from 'react-router-dom';
 import Login from './Login';
 
 describe('Login container', () => {
-	beforeAll(() => render(<Login />));
+	beforeAll(() =>
+		render(
+			<BrowserRouter>
+				<Login />
+			</BrowserRouter>
+		)
+	);
 	afterAll(cleanup);
 
-	it('should render login field', () => {
-		const login = screen.getByLabelText('Login');
-		expect(login).toBeInTheDocument();
+	it('should render username field', () => {
+		const username = screen.getByLabelText('Username');
+		expect(username).toBeInTheDocument();
 	});
 
 	it('should render password field', () => {
