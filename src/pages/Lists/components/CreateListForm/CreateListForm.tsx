@@ -1,20 +1,23 @@
-import { useMemo, useRef } from 'react';
 import { LabelledInput, LabelledTextArea } from 'components';
+import { RefObject } from 'react';
+import { keepInputValue } from 'utils/localStorage';
 
-function CreateListForm({}: Props): JSX.Element {
-	const name = useRef(null);
-	const description = useRef(null);
-
-	const nameProps = useMemo(() => {
-		return { label: 'Nome', _ref: name };
-	}, [name]);
-	const descriptionProps = useMemo(() => {
-		return { label: 'Descricao', _ref: description };
-	}, [description]);
+function CreateListForm({ name, description, create }: Props): JSX.Element {
+	const nameProps = {
+		...name,
+		label: 'Nome',
+		onBlur: () => keepInputValue(name._ref, 'listName'),
+	};
+	const descriptionProps = {
+		...description,
+		label: 'Nome',
+		onBlur: () => keepInputValue(description._ref, 'listDescription'),
+	};
 	return (
 		<form
 			onSubmit={(event) => {
 				event.preventDefault();
+				create();
 			}}
 		>
 			<LabelledInput {...nameProps} />
@@ -24,6 +27,14 @@ function CreateListForm({}: Props): JSX.Element {
 	);
 }
 
-type Props = {};
+type Props = {
+	name: {
+		_ref: RefObject<HTMLInputElement>;
+	};
+	description: {
+		_ref: RefObject<HTMLTextAreaElement>;
+	};
+	create(): void;
+};
 
 export default CreateListForm;

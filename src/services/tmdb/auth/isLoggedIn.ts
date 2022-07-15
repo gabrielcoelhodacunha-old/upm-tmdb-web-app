@@ -1,4 +1,4 @@
-function isLoggedIn() {
+function isLoggedIn(): boolean {
 	const sessionId = localStorage.getItem('sessionId') || '';
 	return sessionId !== '';
 }

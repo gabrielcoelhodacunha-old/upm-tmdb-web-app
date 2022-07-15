@@ -3,7 +3,7 @@ import LabelledTextArea from './LabelledTextArea';
 
 describe('LabelledTextArea component', () => {
 	it('should have label', () => {
-		const props = { label: 'Name' };
+		const props = { label: 'Name', onBlur: () => {} };
 		render(<LabelledTextArea {...props} />);
 		const textArea = screen.getByLabelText(props.label);
 		expect(textArea).toBeInTheDocument();

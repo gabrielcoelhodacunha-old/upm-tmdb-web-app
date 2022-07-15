@@ -1,9 +1,10 @@
 import { LabelledInput } from 'components';
 
-function SearchForm({ titleRef, search }: Props): JSX.Element {
+function SearchForm({ titleRef, search, onBlur }: Props): JSX.Element {
 	const titleProps = {
 		label: 'Titulo',
 		_ref: titleRef,
+		onBlur,
 	};
 	return (
 		<form
@@ -21,6 +22,7 @@ function SearchForm({ titleRef, search }: Props): JSX.Element {
 type Props = {
 	titleRef: any;
 	search(): void;
+	onBlur(): void;
 };
 
 export default SearchForm;

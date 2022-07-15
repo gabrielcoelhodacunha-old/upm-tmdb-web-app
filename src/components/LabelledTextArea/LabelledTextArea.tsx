@@ -1,8 +1,8 @@
-import { forwardRef } from 'react';
+import { forwardRef, RefObject } from 'react';
 import { LabelStyle } from 'assets/styles';
 
-function LabelledTextArea({ label, _ref }: Props): JSX.Element {
-	const textAreaProps = { ref: _ref };
+function LabelledTextArea({ label, _ref, onBlur }: Props): JSX.Element {
+	const textAreaProps = { ref: _ref, onBlur };
 	return (
 		<LabelStyle>
 			{label}
@@ -13,13 +13,15 @@ function LabelledTextArea({ label, _ref }: Props): JSX.Element {
 
 type Props = {
 	label: string;
-	_ref?: any;
-};
+	_ref?: RefObject<HTMLTextAreaElement>;
+} & TextAreaProps;
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 	(props, ref) => <textarea {...props} ref={ref} />
 );
 
-type TextAreaProps = {};
+type TextAreaProps = {
+	onBlur(): void;
+};
 
 export default LabelledTextArea;

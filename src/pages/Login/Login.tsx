@@ -10,7 +10,7 @@ function LoginContainer() {
 	const apiKey = useRef<HTMLInputElement>(null);
 	const navigateTo = useNavigate();
 
-	const props = { type: 'password' };
+	const props = { type: 'password', onBlur: () => {} };
 	const usernameProps = {
 		...props,
 		id: 'username',

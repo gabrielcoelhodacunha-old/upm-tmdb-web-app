@@ -34,8 +34,13 @@ const GlobalStyle = createGlobalStyle`
     border-collapse: 0;
   }
 
+  th, td {
+    border-bottom: 1px outset white;
+    border-radius: 0;
+  }
+
   img {
-    height: 40vh;
+    height: 40vw;
     border-radius: 10px;
   }
 

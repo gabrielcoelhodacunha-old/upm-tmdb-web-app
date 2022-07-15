@@ -1,5 +1,6 @@
 import { TUser } from 'common/types';
 import api from 'services/tmdb/api';
+import { setItem } from 'utils/localStorage';
 import { removeAllWhiteSpaces } from 'utils/string';
 
 async function authenticate(user: TUser): Promise<void> {
@@ -14,8 +15,8 @@ async function authenticate(user: TUser): Promise<void> {
 
 async function createRequestToken({ apiKey }: TUser): Promise<string> {
 	const url = removeAllWhiteSpaces(
-		`/authentication/token/new?
-    api_key=${apiKey}`
+		`/authentication/token/new
+		?api_key=${apiKey}`
 	);
 	const response = await api.get(url);
 	return response.data.request_token;
@@ -26,8 +27,8 @@ async function login(
 	requestToken: string
 ): Promise<void> {
 	const url = removeAllWhiteSpaces(
-		`/authentication/token/validate_with_login?
-		api_key=${apiKey}`
+		`/authentication/token/validate_with_login
+		?api_key=${apiKey}`
 	);
 	const data = {
 		username,
@@ -35,7 +36,8 @@ async function login(
 		request_token: requestToken,
 	};
 	await api.post(url, data);
-	localStorage.setItem('apiKey', apiKey);
+	setItem('username', username);
+	setItem('apiKey', apiKey);
 }
 
 async function createSession(
@@ -43,12 +45,12 @@ async function createSession(
 	requestToken: string
 ): Promise<void> {
 	const url = removeAllWhiteSpaces(
-		`/authentication/session/new?
-		api_key=${apiKey}
+		`/authentication/session/new
+		?api_key=${apiKey}
 		&request_token=${requestToken}`
 	);
 	const response = await api.get(url);
-	localStorage.setItem('sessionId', response.data.session_id);
+	setItem('sessionId', response.data.session_id);
 }
 
 export default authenticate;

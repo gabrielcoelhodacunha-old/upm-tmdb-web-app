@@ -1,22 +1,25 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { searchMovie } from 'services/tmdb';
+import {
+	getItem,
+	getParsed,
+	keepInputValue,
+	setParsed,
+} from 'utils/localStorage';
 import { SearchForm, MovieTable } from './components';
 
 function SearchContainer(): JSX.Element {
 	const title = useRef<HTMLInputElement>(null);
-	const [movies, setMovies] = useState<[]>(
-		JSON.parse(localStorage.getItem('movies') || '[]')
-	);
+	const [movies, setMovies] = useState<[]>(getParsed('movies'));
+	const [lists, setLists] = useState<[]>(getParsed('lists'));
 
 	useEffect(() => {
 		if (!title.current) return;
-		title.current.value = localStorage.getItem('searchQuery') || '';
+		title.current.value = getItem('searchQuery');
 	}, []);
 
 	useEffect(() => {
-		localStorage.setItem('movies', JSON.stringify(movies));
-		if (!title.current) return;
-		localStorage.setItem('searchQuery', title.current.value);
+		setParsed('movies', movies);
 	}, [movies]);
 
 	const search = async () => {
@@ -26,20 +29,17 @@ function SearchContainer(): JSX.Element {
 		setMovies(await searchMovie(query));
 	};
 
-	const formProps = {
-		titleRef: title,
-		search,
-	};
+	const formProps = useMemo(() => {
+		return {
+			titleRef: title,
+			search,
+			onBlur: () => keepInputValue(title, 'searchQuery'),
+		};
+	}, [title]);
 
 	const tableProps = useMemo(() => {
-		return {
-			movies,
-			lists: [
-				{ id: '1', name: 'Anime' },
-				{ id: '2', name: 'Filmes baseados em jogos' },
-			],
-		};
-	}, [movies]);
+		return { movies, lists };
+	}, [movies, lists]);
 
 	return (
 		<div id='search_container'>
