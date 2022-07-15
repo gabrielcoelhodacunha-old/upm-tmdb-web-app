@@ -10,6 +10,8 @@ function TableHead({ columns }: Props): JSX.Element {
 	);
 }
 
-type Props = { columns: string[] };
+type Props = {
+	columns: string[];
+};
 
 export default TableHead;

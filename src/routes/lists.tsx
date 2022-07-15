@@ -1,4 +1,4 @@
-import { ListsContainer } from '../pages';
+import { ListsContainer } from 'pages';
 import TRoute from './TRoute';
 
 const ListsRoute: TRoute = {

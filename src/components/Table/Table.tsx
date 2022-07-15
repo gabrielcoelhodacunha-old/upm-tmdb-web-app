@@ -2,10 +2,8 @@ import TableBody from './TableBody';
 import TableHead from './TableHead';
 
 function Table({ data, columns }: Props): JSX.Element {
-	let rowNumber = 0;
-
 	const headProps = { columns };
-	const bodyProps = { data, columns, rowNumber };
+	const bodyProps = { data, columns };
 	return (
 		<table>
 			<TableHead {...headProps} />

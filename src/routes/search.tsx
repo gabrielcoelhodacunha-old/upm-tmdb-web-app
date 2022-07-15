@@ -1,4 +1,4 @@
-import { SearchContainer } from '../pages';
+import { SearchContainer } from 'pages';
 import TRoute from './TRoute';
 
 const SearchRoute: TRoute = {

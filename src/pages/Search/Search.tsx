@@ -1,12 +1,7 @@
-import { useMemo, useRef } from 'react';
-import { LabelledInput, MovieTable } from '../../components';
+import { useMemo } from 'react';
+import { SearchForm, MovieTable } from './components';
 
 function SearchContainer(): JSX.Element {
-	const title = useRef(null);
-
-	const titleProps = useMemo(() => {
-		return { label: 'Titulo', _ref: title };
-	}, [title]);
 	const tableProps = useMemo(() => {
 		return {
 			movies: [
@@ -22,14 +17,7 @@ function SearchContainer(): JSX.Element {
 	}, []);
 	return (
 		<div id='search_container'>
-			<form
-				onSubmit={(event) => {
-					event.preventDefault();
-				}}
-			>
-				<LabelledInput {...titleProps} />
-				<button>Pesquisar</button>
-			</form>
+			<SearchForm />
 			{tableProps.movies.length ? <MovieTable {...tableProps} /> : null}
 		</div>
 	);

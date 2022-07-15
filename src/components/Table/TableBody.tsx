@@ -1,8 +1,8 @@
-function TableBody({ data, columns, rowNumber }: Props): JSX.Element {
+function TableBody({ data, columns }: Props): JSX.Element {
 	return (
 		<tbody>
-			{data.map((row) => (
-				<tr key={`row-${rowNumber++}`}>
+			{data.map((row, index) => (
+				<tr key={`row-${index}`}>
 					{columns.map((column) => (
 						<td key={`column-${column}`}>{row[column]}</td>
 					))}
@@ -15,7 +15,6 @@ function TableBody({ data, columns, rowNumber }: Props): JSX.Element {
 type Props = {
 	data: any[];
 	columns: string[];
-	rowNumber: number;
 };
 
 export default TableBody;

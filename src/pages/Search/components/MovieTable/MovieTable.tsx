@@ -1,4 +1,4 @@
-import { Table } from '..';
+import { Table } from 'components';
 import MovieItem from './MovieItem';
 
 function MovieTable({ movies, lists }: Props): JSX.Element {

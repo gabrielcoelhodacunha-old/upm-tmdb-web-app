@@ -1,4 +1,4 @@
-import { LoginContainer } from '../pages';
+import { LoginContainer } from 'pages';
 import TRoute from './TRoute';
 
 const LoginRoute: TRoute = {

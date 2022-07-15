@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import Navigation from '../Navigation/Navigation';
-import Header from '../Header/Header';
+import { Navigation, Header } from '..';
 
 function Layout(): JSX.Element {
 	return (

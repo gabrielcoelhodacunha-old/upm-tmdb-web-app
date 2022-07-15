@@ -1,4 +1,4 @@
-import { Table } from '..';
+import { Table } from 'components';
 import ListItem from './ListItem';
 
 function ListTable({ lists }: Props): JSX.Element {

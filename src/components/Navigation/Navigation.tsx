@@ -1,15 +1,15 @@
+import { TObject } from 'common/types';
 import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { deleteSession } from 'services/tmdb';
 
-type TObject = { [key: string]: any };
-
-function NavigationContainer(): JSX.Element {
+function Navigation(): JSX.Element {
 	const navigateTo = useNavigate();
 	const location = useLocation();
 	const routes = { search: useRef(null), lists: useRef(null) } as TObject;
 
 	useEffect(() => {
-		const route = location.pathname.split('/')[1];
+		const route = location.pathname.slice(1);
 		if (isLoginPage()) return;
 		Object.keys(routes).forEach(
 			(key) => (routes[key].current.disabled = key === route)
@@ -20,6 +20,11 @@ function NavigationContainer(): JSX.Element {
 		const route = location.pathname.slice(1);
 		return route === 'login';
 	}, [location]);
+
+	const logOut = async () => {
+		deleteSession();
+		navigateTo('/');
+	};
 	return (
 		<>
 			{!isLoginPage() && (
@@ -30,10 +35,11 @@ function NavigationContainer(): JSX.Element {
 					<button ref={routes.lists} onClick={() => navigateTo('lists')}>
 						Listas
 					</button>
+					<button onClick={logOut}>Log Out</button>
 				</nav>
 			)}
 		</>
 	);
 }
 
-export default NavigationContainer;
+export default Navigation;

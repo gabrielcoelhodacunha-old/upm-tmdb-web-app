@@ -1,9 +1,7 @@
-import { useCallback } from 'react';
-
 function ListName({ id, name }: Props): JSX.Element {
-	const deleteList = useCallback(() => {
+	const deleteList = () => {
 		console.log(id);
-	}, []);
+	};
 
 	return (
 		<div>

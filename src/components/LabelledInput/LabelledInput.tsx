@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
-import { LabelStyle } from '../../assets/styles';
+import { LabelStyle } from 'assets/styles';
 
-function LabelledInput({ label, type, _ref }: Props): JSX.Element {
-	const inputProps = { ref: _ref, type };
+function LabelledInput({ id, label, type, _ref }: Props): JSX.Element {
+	const inputProps = { id, type, ref: _ref };
 	return (
 		<LabelStyle>
 			{label}
@@ -21,6 +21,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => (
 ));
 
 type InputProps = {
+	id?: string;
 	type?: string;
 };
 

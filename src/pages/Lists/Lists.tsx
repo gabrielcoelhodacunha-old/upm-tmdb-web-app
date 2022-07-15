@@ -1,16 +1,7 @@
-import { useMemo, useRef } from 'react';
-import { LabelledInput, LabelledTextArea, ListTable } from '../../components';
+import { useMemo } from 'react';
+import { CreateListForm, ListTable } from './components';
 
 function ListsContainer(): JSX.Element {
-	const name = useRef(null);
-	const description = useRef(null);
-
-	const nameProps = useMemo(() => {
-		return { label: 'Nome', _ref: name };
-	}, [name]);
-	const descriptionProps = useMemo(() => {
-		return { label: 'Descricao', _ref: description };
-	}, [description]);
 	const tableProps = useMemo(() => {
 		return {
 			lists: [
@@ -31,15 +22,7 @@ function ListsContainer(): JSX.Element {
 	}, []);
 	return (
 		<div id='lists_container'>
-			<form
-				onSubmit={(event) => {
-					event.preventDefault();
-				}}
-			>
-				<LabelledInput {...nameProps} />
-				<LabelledTextArea {...descriptionProps} />
-				<button>Criar Lista</button>
-			</form>
+			<CreateListForm />
 			{tableProps.lists.length ? <ListTable {...tableProps} /> : null}
 		</div>
 	);

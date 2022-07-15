@@ -1,18 +1,48 @@
 import { useRef } from 'react';
-import { LabelledInput } from '../../components';
+import { LabelledInput } from 'components';
+import authenticate from 'services/tmdb/auth/authenticate';
+import { TUser } from 'common/types';
+import { useNavigate } from 'react-router-dom';
 
 function LoginContainer() {
-	const login = useRef(null);
-	const password = useRef(null);
-	const apiKey = useRef(null);
+	const login = useRef<HTMLInputElement>(null);
+	const password = useRef<HTMLInputElement>(null);
+	const apiKey = useRef<HTMLInputElement>(null);
+	const navigateTo = useNavigate();
 
 	const props = { type: 'password' };
-	const loginProps = { ...props, label: 'Login', _ref: login };
-	const passwordProps = { ...props, label: 'Password', _ref: password };
-	const apiKeyProps = { ...props, label: 'Api Key', _ref: apiKey };
+	const loginProps = {
+		...props,
+		id: 'login',
+		label: 'Login',
+		_ref: login,
+	};
+	const passwordProps = {
+		...props,
+		id: 'password',
+		label: 'Password',
+		_ref: password,
+	};
+	const apiKeyProps = {
+		...props,
+		id: 'apiKey',
+		label: 'Api Key',
+		_ref: apiKey,
+	};
 
-	const submit = () => {
-		localStorage.setItem('sessionId', '12345');
+	const submit = async () => {
+		const inputs = {
+			username: login.current,
+			password: password.current,
+			apiKey: apiKey.current,
+		};
+		let user = {} as TUser;
+		for (const [key, input] of Object.entries(inputs)) {
+			if (!input) return;
+			user[key] = input.value;
+		}
+		await authenticate(user);
+		navigateTo('/');
 	};
 
 	return (

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { LabelStyle } from '../../assets/styles';
+import { LabelStyle } from 'assets/styles';
 
 function LabelledTextArea({ label, _ref }: Props): JSX.Element {
 	const textAreaProps = { ref: _ref };
