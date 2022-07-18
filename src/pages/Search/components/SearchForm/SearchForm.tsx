@@ -1,10 +1,10 @@
 import { LabelledInput } from 'components';
+import { RefObject } from 'react';
 
-function SearchForm({ titleRef, search, onBlur }: Props): JSX.Element {
+function SearchForm({ title, search }: Props): JSX.Element {
 	const titleProps = {
+		...title,
 		label: 'Titulo',
-		_ref: titleRef,
-		onBlur,
 	};
 	return (
 		<form
@@ -20,9 +20,11 @@ function SearchForm({ titleRef, search, onBlur }: Props): JSX.Element {
 }
 
 type Props = {
-	titleRef: any;
+	title: {
+		_ref: RefObject<HTMLInputElement>;
+		onBlur(): void;
+	};
 	search(): void;
-	onBlur(): void;
 };
 
 export default SearchForm;

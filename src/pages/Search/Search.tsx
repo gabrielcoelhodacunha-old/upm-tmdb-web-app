@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { TList } from 'common/types';
+import { useEffect, useRef, useState } from 'react';
 import { searchMovie } from 'services/tmdb';
 import {
 	getItem,
@@ -11,7 +12,7 @@ import { SearchForm, MovieTable } from './components';
 function SearchContainer(): JSX.Element {
 	const title = useRef<HTMLInputElement>(null);
 	const [movies, setMovies] = useState<[]>(getParsed('movies'));
-	const [lists, setLists] = useState<[]>(getParsed('lists'));
+	const [lists, _] = useState<TList[]>(getParsed('lists'));
 
 	useEffect(() => {
 		if (!title.current) return;
@@ -29,17 +30,15 @@ function SearchContainer(): JSX.Element {
 		setMovies(await searchMovie(query));
 	};
 
-	const formProps = useMemo(() => {
-		return {
-			titleRef: title,
-			search,
+	const formProps = {
+		title: {
+			_ref: title,
 			onBlur: () => keepInputValue(title, 'searchQuery'),
-		};
-	}, [title]);
+		},
+		search,
+	};
 
-	const tableProps = useMemo(() => {
-		return { movies, lists };
-	}, [movies, lists]);
+	const tableProps = { movies, lists };
 
 	return (
 		<div id='search_container'>

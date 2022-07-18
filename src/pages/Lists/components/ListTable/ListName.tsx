@@ -1,10 +1,14 @@
-import deleteList from './deleteList';
+import { deleteList } from 'services/tmdb';
 
 function ListName({ id, name }: Props): JSX.Element {
-	const onClick = () => deleteList(id);
+	async function _deleteList(listId: string) {
+		await deleteList(listId);
+		window.location.reload();
+	}
+
 	return (
 		<div>
-			<button onClick={onClick}>Deletar lista</button>
+			<button onClick={() => _deleteList(id)}>Deletar lista</button>
 			<p>{name}</p>
 		</div>
 	);

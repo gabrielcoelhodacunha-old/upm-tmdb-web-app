@@ -1,12 +1,17 @@
-import { TList } from 'common/types';
-import { getItem } from 'utils/localStorage';
+import { TList, TUserData } from 'common/types';
+import { getUserData } from 'utils/axios';
 import { removeAllWhiteSpaces } from 'utils/string';
 import api from '../api';
 
-async function getMoviesLists(): Promise<TList[]> {
-	const username = getItem('username');
-	const apiKey = getItem('apiKey');
-	const sessionId = getItem('sessionId');
+async function getMoviesLists() {
+	return await _getMoviesLists(getUserData());
+}
+
+async function _getMoviesLists({
+	username,
+	apiKey,
+	sessionId,
+}: TUserData): Promise<TList[]> {
 	const url = removeAllWhiteSpaces(
 		`/account/${username}/lists
     ?api_key=${apiKey}

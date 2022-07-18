@@ -1,6 +1,7 @@
 import { TUser } from 'common/types';
 import api from 'services/tmdb/api';
 import { configureUserData } from 'utils/axios';
+import { setItem } from 'utils/localStorage';
 import { removeAllWhiteSpaces } from 'utils/string';
 
 async function authenticate(user: TUser): Promise<void> {
@@ -8,6 +9,7 @@ async function authenticate(user: TUser): Promise<void> {
 		const requestToken = await createRequestToken(user);
 		await login(user, requestToken);
 		configureAxios(user, await createSession(user, requestToken));
+		setItem('isLoggedIn', 'true');
 	} catch {
 		alert('Credenciais incorretas!');
 	}
