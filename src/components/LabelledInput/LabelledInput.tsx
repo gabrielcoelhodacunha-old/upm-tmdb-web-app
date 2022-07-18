@@ -23,7 +23,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => (
 type InputProps = {
 	id?: string;
 	type?: string;
-	onBlur(): void;
+	onBlur?(): void;
 };
 
 export default LabelledInput;

@@ -1,9 +1,10 @@
-import { getItem, getParsed, setParsed } from 'utils/localStorage';
+import { TList } from 'common/types';
+import { getItem, getParsed } from 'utils/localStorage';
 import { removeAllWhiteSpaces } from 'utils/string';
 import api from '../api';
 
 async function createList(name: string, description: string): Promise<void> {
-	const lists = getParsed<any[]>('lists');
+	const lists = getParsed<TList[]>('lists');
 	if (lists.some((list) => list.name === name)) {
 		return alert(`A lista '${name}' ja existe!`);
 	}

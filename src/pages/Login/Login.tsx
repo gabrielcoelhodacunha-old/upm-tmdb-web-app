@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 import { LabelledInput } from 'components';
-import authenticate from 'services/tmdb/auth/authenticate';
-import { TUser } from 'common/types';
+import { authenticate } from 'services/tmdb';
 import { useNavigate } from 'react-router-dom';
+import { setItem } from 'utils/localStorage';
+import { TUser } from 'common/types';
 
 function LoginContainer() {
 	const username = useRef<HTMLInputElement>(null);
@@ -10,7 +11,7 @@ function LoginContainer() {
 	const apiKey = useRef<HTMLInputElement>(null);
 	const navigateTo = useNavigate();
 
-	const props = { type: 'password', onBlur: () => {} };
+	const props = { type: 'password' };
 	const usernameProps = {
 		...props,
 		id: 'username',
@@ -40,8 +41,10 @@ function LoginContainer() {
 		for (const [key, input] of Object.entries(inputs)) {
 			if (!input) return;
 			user[key] = input.value;
+			if (key === 'password') continue;
+			setItem(key, user[key]);
 		}
-		await authenticate(user);
+		setItem('sessionId', await authenticate(user));
 		navigateTo('/');
 	};
 

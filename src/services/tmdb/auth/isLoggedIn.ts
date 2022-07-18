@@ -1,6 +1,7 @@
+import { getItem } from 'utils/localStorage';
+
 function isLoggedIn(): boolean {
-	const sessionId = localStorage.getItem('sessionId') || '';
-	return sessionId !== '';
+	return getItem('sessionId') !== '';
 }
 
 export default isLoggedIn;

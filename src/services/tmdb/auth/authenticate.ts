@@ -1,16 +1,17 @@
 import { TUser } from 'common/types';
 import api from 'services/tmdb/api';
-import { setItem } from 'utils/localStorage';
 import { removeAllWhiteSpaces } from 'utils/string';
 
-async function authenticate(user: TUser): Promise<void> {
+async function authenticate(user: TUser): Promise<string> {
+	let sessionId: string = '';
 	try {
 		const requestToken = await createRequestToken(user);
 		await login(user, requestToken);
-		await createSession(user, requestToken);
+		sessionId = await createSession(user, requestToken);
 	} catch {
 		alert('Credenciais incorretas!');
 	}
+	return sessionId;
 }
 
 async function createRequestToken({ apiKey }: TUser): Promise<string> {
@@ -36,21 +37,19 @@ async function login(
 		request_token: requestToken,
 	};
 	await api.post(url, data);
-	setItem('username', username);
-	setItem('apiKey', apiKey);
 }
 
 async function createSession(
 	{ apiKey }: TUser,
 	requestToken: string
-): Promise<void> {
+): Promise<string> {
 	const url = removeAllWhiteSpaces(
 		`/authentication/session/new
 		?api_key=${apiKey}
 		&request_token=${requestToken}`
 	);
 	const response = await api.get(url);
-	setItem('sessionId', response.data.session_id);
+	return response.data.session_id;
 }
 
 export default authenticate;

@@ -1,5 +1,5 @@
 import { TList } from 'common/types';
-import { getItem, setParsed } from 'utils/localStorage';
+import { getItem } from 'utils/localStorage';
 import { removeAllWhiteSpaces } from 'utils/string';
 import api from '../api';
 
@@ -19,7 +19,6 @@ async function getMoviesLists(): Promise<TList[]> {
 		const items = await getListById(apiKey, id);
 		lists.push({ id, name, description, items });
 	}
-	setParsed('lists', lists);
 	return lists;
 }
 

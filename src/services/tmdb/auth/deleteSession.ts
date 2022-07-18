@@ -1,17 +1,13 @@
-import { getItem } from 'utils/localStorage';
 import { removeAllWhiteSpaces } from 'utils/string';
 import api from '../api';
 
-async function deleteSession(): Promise<void> {
-	const apiKey = localStorage.getItem('apiKey') || '';
+async function deleteSession(apiKey: string, sessionId: string): Promise<void> {
 	const url = removeAllWhiteSpaces(
 		`/authentication/session
 		?api_key=${apiKey}`
 	);
-	const session_id = getItem('sessionId');
-	const data = { session_id };
+	const data = { session_id: sessionId };
 	await api.delete(url, { data });
-	localStorage.clear();
 }
 
 export default deleteSession;

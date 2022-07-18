@@ -1,11 +1,10 @@
-function ListName({ id, name }: Props): JSX.Element {
-	const deleteList = () => {
-		console.log(id);
-	};
+import deleteList from './deleteList';
 
+function ListName({ id, name }: Props): JSX.Element {
+	const onClick = () => deleteList(id);
 	return (
 		<div>
-			<button onClick={deleteList}>Deletar lista</button>
+			<button onClick={onClick}>Deletar lista</button>
 			<p>{name}</p>
 		</div>
 	);
