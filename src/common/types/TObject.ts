@@ -1,4 +1,4 @@
-type TObject = {
+type TObject = Object & {
 	[key: string]: any;
 };
 

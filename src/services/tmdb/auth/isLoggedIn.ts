@@ -1,7 +1,7 @@
-import { getItem } from 'utils/localStorage';
+import { getUserData } from 'utils/axios';
 
 function isLoggedIn(): boolean {
-	return getItem('sessionId') !== '';
+	return getUserData('sessionId') !== '';
 }
 
 export default isLoggedIn;

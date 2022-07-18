@@ -2,7 +2,7 @@ import { TObject } from 'common/types';
 import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { deleteSession } from 'services/tmdb';
-import { getItem } from 'utils/localStorage';
+import { deleteUserData, getUserData } from 'utils/axios';
 
 function Navigation(): JSX.Element {
 	const navigateTo = useNavigate();
@@ -23,7 +23,8 @@ function Navigation(): JSX.Element {
 	}, [location]);
 
 	const logOut = async () => {
-		await deleteSession(getItem('apiKey'), getItem('sessionId'));
+		await deleteSession(getUserData('apiKey'), getUserData('sessionId'));
+		deleteUserData();
 		localStorage.clear();
 		navigateTo('/');
 	};

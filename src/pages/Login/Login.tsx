@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { LabelledInput } from 'components';
 import { authenticate } from 'services/tmdb';
 import { useNavigate } from 'react-router-dom';
-import { setItem } from 'utils/localStorage';
 import { TUser } from 'common/types';
 
 function LoginContainer() {
@@ -41,10 +40,8 @@ function LoginContainer() {
 		for (const [key, input] of Object.entries(inputs)) {
 			if (!input) return;
 			user[key] = input.value;
-			if (key === 'password') continue;
-			setItem(key, user[key]);
 		}
-		setItem('sessionId', await authenticate(user));
+		await authenticate(user);
 		navigateTo('/');
 	};
 
