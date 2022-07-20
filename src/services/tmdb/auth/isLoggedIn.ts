@@ -1,7 +1,7 @@
 import { getItem } from 'utils/localStorage';
 
 function isLoggedIn(): boolean {
-	return getItem('isLoggedIn') === 'true';
+	return getItem('sessionId') !== '';
 }
 
 export default isLoggedIn;

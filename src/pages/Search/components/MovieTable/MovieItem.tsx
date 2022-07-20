@@ -1,19 +1,14 @@
 import MovieTitle from './MovieTitle';
 import MovieLists from './MovieLists';
+import { TMovie } from 'common/types';
 
-function MovieItem({ id, title, poster_path }: TMovie, lists: any[]) {
+function MovieItem({ id, title, poster_path }: TMovie) {
 	const movieTitleProps = { title, poster_path };
-	const listsProps = { id, lists };
+	const listsProps = { movieId: id };
 	return {
 		Filme: <MovieTitle {...movieTitleProps} />,
 		Listas: <MovieLists {...listsProps} />,
 	};
 }
-
-type TMovie = {
-	id: string;
-	title: string;
-	poster_path?: string;
-};
 
 export default MovieItem;

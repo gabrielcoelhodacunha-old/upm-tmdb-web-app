@@ -1,12 +1,19 @@
 import { TObject } from 'common/types';
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAppDispatch } from 'redux/hooks';
+import { getLists } from 'redux/tmdb';
 import { deleteSession } from 'services/tmdb';
 
 function Navigation(): JSX.Element {
 	const navigateTo = useNavigate();
 	const location = useLocation();
 	const routes = { search: useRef(null), lists: useRef(null) } as TObject;
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(getLists());
+	}, []);
 
 	useEffect(() => {
 		const route = location.pathname.slice(1);
@@ -14,12 +21,12 @@ function Navigation(): JSX.Element {
 		Object.keys(routes).forEach(
 			(key) => (routes[key].current.disabled = key === route)
 		);
-	});
+	}, [location]);
 
-	const isLoginPage = useCallback(() => {
+	const isLoginPage = () => {
 		const route = location.pathname.slice(1);
 		return route === 'login';
-	}, [location]);
+	};
 
 	const logOut = async () => {
 		await deleteSession();

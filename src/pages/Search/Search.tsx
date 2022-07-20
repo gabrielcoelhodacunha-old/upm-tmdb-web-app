@@ -1,33 +1,22 @@
-import { TList } from 'common/types';
-import { useEffect, useRef, useState } from 'react';
-import { searchMovie } from 'services/tmdb';
-import {
-	getItem,
-	getParsed,
-	keepInputValue,
-	setParsed,
-} from 'utils/localStorage';
+import { useEffect, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { searchMovie, selectMovies } from 'redux/tmdb';
+import { getItem, keepInputValue } from 'utils/localStorage';
 import { SearchForm, MovieTable } from './components';
 
 function SearchContainer(): JSX.Element {
 	const title = useRef<HTMLInputElement>(null);
-	const [movies, setMovies] = useState<[]>(getParsed('movies'));
-	const [lists, _] = useState<TList[]>(getParsed('lists'));
+	const dispatch = useAppDispatch();
+	const movies = useAppSelector(selectMovies);
 
 	useEffect(() => {
 		if (!title.current) return;
 		title.current.value = getItem('searchQuery');
 	}, []);
 
-	useEffect(() => {
-		setParsed('movies', movies);
-	}, [movies]);
-
 	const search = async () => {
 		if (!title.current) return;
-		const query = title.current.value;
-		if (!query) return setMovies([]);
-		setMovies(await searchMovie(query));
+		dispatch(searchMovie({ query: title.current.value }));
 	};
 
 	const formProps = {
@@ -38,7 +27,7 @@ function SearchContainer(): JSX.Element {
 		search,
 	};
 
-	const tableProps = { movies, lists };
+	const tableProps = { movies };
 
 	return (
 		<div id='search_container'>

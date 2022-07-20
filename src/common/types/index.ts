@@ -1,6 +1,6 @@
 import TObject from './TObject';
 import TUser from './TUser';
-import TUserData from './TUserData';
 import TList from './TList';
+import TMovie from './TMovie';
 
-export type { TObject, TUser, TList, TUserData };
+export type { TObject, TUser, TList, TMovie };

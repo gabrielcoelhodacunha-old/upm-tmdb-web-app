@@ -36,7 +36,7 @@ function LoginContainer() {
 			password: password.current,
 			apiKey: apiKey.current,
 		};
-		let user = {} as TUser;
+		const user = {} as TUser;
 		for (const [key, input] of Object.entries(inputs)) {
 			if (!input) return;
 			user[key] = input.value;

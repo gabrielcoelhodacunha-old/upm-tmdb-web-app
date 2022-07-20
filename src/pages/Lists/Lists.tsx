@@ -1,43 +1,32 @@
-import { TList } from 'common/types';
-import { useEffect, useRef, useState } from 'react';
-import { createList, getMoviesLists } from 'services/tmdb';
-import { getItem, getParsed, setItem, setParsed } from 'utils/localStorage';
+import { useEffect, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { getLists, selectLists } from 'redux/tmdb';
+import { createList } from 'services/tmdb';
+import { getItem, setItem } from 'utils/localStorage';
 import { CreateListForm, ListTable } from './components';
 
 function ListsContainer(): JSX.Element {
 	const name = useRef<HTMLInputElement>(null);
 	const description = useRef<HTMLTextAreaElement>(null);
-	const [lists, setLists] = useState<TList[]>([]);
+	const dispatch = useAppDispatch();
+	const lists = useAppSelector(selectLists);
 
 	useEffect(() => {
-		getLists();
 		fillFieldsWithPreviousValues();
 	}, []);
 
-	useEffect(() => {
-		setParsed('lists', lists);
-	}, [lists]);
-
-	async function getLists() {
-		const localStorageLists = getParsed<TList[]>('lists');
-		const newLists = localStorageLists.length
-			? localStorageLists
-			: await getMoviesLists();
-		setLists(newLists);
-	}
-
-	function fillFieldsWithPreviousValues() {
+	const fillFieldsWithPreviousValues = () => {
 		if (!name.current || !description.current) return;
 		name.current.value = getItem('listName');
 		description.current.value = getItem('listDescription');
 		setFieldsInLocalStorage();
-	}
+	};
 
-	function setFieldsInLocalStorage() {
+	const setFieldsInLocalStorage = () => {
 		if (!name.current || !description.current) return;
 		setItem('listName', name.current.value);
 		setItem('listDescription', description.current.value);
-	}
+	};
 
 	const clearFieldsValues = () => {
 		if (!name.current || !description.current) return;
@@ -54,7 +43,7 @@ function ListsContainer(): JSX.Element {
 			: '';
 		await createList(nameValue, descriptionValue);
 		clearFieldsValues();
-		setLists(await getMoviesLists());
+		dispatch(getLists());
 	};
 
 	const formProps = {

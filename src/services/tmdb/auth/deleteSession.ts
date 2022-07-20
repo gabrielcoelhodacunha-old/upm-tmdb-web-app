@@ -1,15 +1,18 @@
-import { TUserData } from 'common/types';
-import { deleteUserData, getUserData } from 'utils/axios';
 import { removeAllWhiteSpaces } from 'utils/string';
 import api from '../api';
+import { getItem } from 'utils/localStorage';
 
 async function deleteSession() {
-	_deleteSession(getUserData());
-	deleteUserData();
+	const apiKey = getItem('apiKey');
+	const sessionId = getItem('sessionId');
 	localStorage.clear();
+	_deleteSession(apiKey, sessionId);
 }
 
-async function _deleteSession({ apiKey, sessionId }: TUserData): Promise<void> {
+async function _deleteSession(
+	apiKey: string,
+	sessionId: string
+): Promise<void> {
 	const url = removeAllWhiteSpaces(
 		`/authentication/session
 		?api_key=${apiKey}`

@@ -1,43 +1,111 @@
-function MovieLists({ id, lists }: Props): JSX.Element {
-	const hasLists = lists.length > 0;
-	const isMovieInSelectedList = false;
+import { TList } from 'common/types';
+import { forwardRef, useEffect, useRef, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import {
+	addMovieToList,
+	getLists,
+	removeMovieFromList,
+	selectLists,
+} from 'redux/tmdb';
 
-	const addMovieToList = () => {
-		console.log(`Added movie ${id}`);
+function MovieLists({ movieId }: Props): JSX.Element {
+	const dispatch = useAppDispatch();
+	const lists = useAppSelector(selectLists);
+	const select = useRef<HTMLSelectElement>(null);
+	const [isMovieInList, setIsMovieInList] = useState<boolean>(false);
+	const hasLists = lists.length > 0;
+
+	useEffect(() => {
+		toggleButtons();
+	}, [lists]);
+
+	function toggleButtons() {
+		setIsMovieInList(isMovieInSelectedList());
+	}
+
+	function isMovieInSelectedList() {
+		const selectedListId = select.current ? select.current.value : '';
+		if (!selectedListId) return false;
+		const selectedList = lists.find((list) => list.id === selectedListId);
+		if (!selectedList) return false;
+		return selectedList.items.some((item) => item.id === movieId);
+	}
+
+	const _addMovieToList = async () => {
+		if (!select.current) return;
+		await dispatch(addMovieToList({ movieId, listId: select.current.value }));
+		await dispatch(getLists());
 	};
 
-	const deleteMovieFromList = () => {
-		console.log(`Deleted movie ${id}`);
+	const _removeMovieFromList = async () => {
+		if (!select.current) return;
+		await dispatch(
+			removeMovieFromList({ movieId, listId: select.current.value })
+		);
+		await dispatch(getLists());
+	};
+
+	const selectProps = {
+		disabled: !hasLists,
+		onChange: toggleButtons,
+		lists,
+	};
+
+	const addProps = {
+		text: 'Adicionar',
+		onClick: () => _addMovieToList(),
+		disabled: !hasLists || isMovieInList,
+	};
+
+	const removeProps = {
+		text: 'Remover',
+		onClick: () => _removeMovieFromList(),
+		disabled: !hasLists || !isMovieInList,
 	};
 
 	return (
 		<div>
-			<select disabled={!lists.length}>
-				{lists.map((list) => (
-					<option key={list.id} value={list.id}>
-						{list.name}
-					</option>
-				))}
-			</select>
-			<button
-				onClick={addMovieToList}
-				disabled={!hasLists || isMovieInSelectedList}
-			>
-				Adicionar
-			</button>
-			<button
-				onClick={deleteMovieFromList}
-				disabled={!hasLists || !isMovieInSelectedList}
-			>
-				Remover
-			</button>
+			<Select ref={select} {...selectProps} />
+			<Button {...addProps} />
+			<Button {...removeProps} />
 		</div>
 	);
 }
 
 type Props = {
-	id: string;
-	lists: any[];
+	movieId: string;
+};
+
+const Select = forwardRef<HTMLSelectElement, SelectProps>(
+	({ disabled, onChange, lists }, ref) => (
+		<select ref={ref} disabled={disabled} onChange={onChange}>
+			{lists.map((list) => (
+				<option key={list.id} value={list.id}>
+					{list.name}
+				</option>
+			))}
+		</select>
+	)
+);
+
+type SelectProps = {
+	disabled: boolean;
+	onChange(): void;
+	lists: TList[];
+};
+
+function Button({ text, onClick, disabled }: ButtonProps) {
+	return (
+		<button onClick={onClick} disabled={disabled}>
+			{text}
+		</button>
+	);
+}
+
+type ButtonProps = {
+	text: string;
+	onClick(): void;
+	disabled: boolean;
 };
 
 export default MovieLists;

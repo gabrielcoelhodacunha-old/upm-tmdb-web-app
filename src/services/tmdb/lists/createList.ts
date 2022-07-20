@@ -1,15 +1,17 @@
-import { TList, TUserData } from 'common/types';
-import { getUserData } from 'utils/axios';
-import { getParsed } from 'utils/localStorage';
+import { TList } from 'common/types';
+import { getItem, getParsed } from 'utils/localStorage';
 import { removeAllWhiteSpaces } from 'utils/string';
 import api from '../api';
 
 async function createList(name: string, description: string) {
-	await _createList(getUserData(), name, description);
+	const apiKey = getItem('apiKey');
+	const sessionId = getItem('sessionId');
+	await _createList(apiKey, sessionId, name, description);
 }
 
 async function _createList(
-	{ apiKey, sessionId }: TUserData,
+	apiKey: string,
+	sessionId: string,
 	name: string,
 	description: string
 ): Promise<void> {

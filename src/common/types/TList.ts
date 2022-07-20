@@ -1,10 +1,11 @@
+import TMovie from './TMovie';
 import TObject from './TObject';
 
 type TList = TObject & {
-	id: number;
+	id: string;
 	name: string;
 	description: string;
-	items: any[];
+	items: TMovie[];
 };
 
 export default TList;

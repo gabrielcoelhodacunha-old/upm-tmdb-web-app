@@ -24,4 +24,17 @@ function keepInputValue(
 	setItem(item, element.current.value);
 }
 
-export { getItem, getParsed, setItem, setParsed, keepInputValue };
+function setMultipleItems(items: Object) {
+	Object.entries(items).forEach(([key, value]) => {
+		setItem(key, value);
+	});
+}
+
+export {
+	getItem,
+	getParsed,
+	setItem,
+	setParsed,
+	keepInputValue,
+	setMultipleItems,
+};
