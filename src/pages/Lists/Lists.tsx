@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { getLists, selectLists } from 'redux/tmdb';
-import { createList } from 'services/tmdb';
+import { createList, getLists, selectLists } from 'redux/tmdb';
 import { getItem, setItem } from 'utils/localStorage';
 import { CreateListForm, ListTable } from './components';
 
@@ -41,8 +40,10 @@ function ListsContainer(): JSX.Element {
 		const descriptionValue = description.current
 			? description.current.value
 			: '';
-		await createList(nameValue, descriptionValue);
 		clearFieldsValues();
+		await dispatch(
+			createList({ name: nameValue, description: descriptionValue })
+		);
 		dispatch(getLists());
 	};
 

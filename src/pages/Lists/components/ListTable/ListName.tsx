@@ -1,14 +1,17 @@
-import { deleteList } from 'services/tmdb';
+import { useAppDispatch } from 'redux/hooks';
+import { deleteList, getLists } from 'redux/tmdb';
 
 function ListName({ id, name }: Props): JSX.Element {
-	async function _deleteList(listId: string) {
-		await deleteList(listId);
-		window.location.reload();
+	const dispatch = useAppDispatch();
+
+	async function _deleteList() {
+		await dispatch(deleteList({ id }));
+		dispatch(getLists());
 	}
 
 	return (
 		<div>
-			<button onClick={() => _deleteList(id)}>Deletar lista</button>
+			<button onClick={_deleteList}>Deletar lista</button>
 			<p>{name}</p>
 		</div>
 	);

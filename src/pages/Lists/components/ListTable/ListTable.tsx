@@ -1,3 +1,4 @@
+import { TList } from 'common/types';
 import { Table } from 'components';
 import ListItem from './ListItem';
 
@@ -10,7 +11,7 @@ function ListTable({ lists }: Props): JSX.Element {
 }
 
 type Props = {
-	lists: any[];
+	lists: TList[];
 };
 
 export default ListTable;
