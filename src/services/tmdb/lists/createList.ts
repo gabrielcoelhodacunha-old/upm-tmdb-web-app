@@ -1,5 +1,4 @@
-import { TList } from 'common/types';
-import { getItem, getParsed } from 'utils/localStorage';
+import { getItem } from 'utils/localStorage';
 import { removeAllWhiteSpaces } from 'utils/string';
 import api from '../api';
 
@@ -15,10 +14,6 @@ async function _createList(
 	name: string,
 	description: string
 ): Promise<void> {
-	const lists = getParsed<TList[]>('lists');
-	if (lists.some((list) => list.name === name)) {
-		return alert(`A lista '${name}' ja existe!`);
-	}
 	const url = removeAllWhiteSpaces(
 		`/list
     ?api_key=${apiKey}

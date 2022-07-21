@@ -11,15 +11,14 @@ function ListsContainer(): JSX.Element {
 	const lists = useAppSelector(selectLists);
 
 	useEffect(() => {
+		const fillFieldsWithPreviousValues = () => {
+			if (!name.current || !description.current) return;
+			name.current.value = getItem('listName');
+			description.current.value = getItem('listDescription');
+			setFieldsInLocalStorage();
+		};
 		fillFieldsWithPreviousValues();
 	}, []);
-
-	const fillFieldsWithPreviousValues = () => {
-		if (!name.current || !description.current) return;
-		name.current.value = getItem('listName');
-		description.current.value = getItem('listDescription');
-		setFieldsInLocalStorage();
-	};
 
 	const setFieldsInLocalStorage = () => {
 		if (!name.current || !description.current) return;
@@ -37,6 +36,9 @@ function ListsContainer(): JSX.Element {
 	const create = async () => {
 		const nameValue = name.current ? name.current.value : '';
 		if (!nameValue) return alert(`O campo 'Nome' deve ser preenchido!`);
+		if (lists.some((list) => list.name === nameValue)) {
+			return alert(`A lista '${nameValue}' ja existe!`);
+		}
 		const descriptionValue = description.current
 			? description.current.value
 			: '';

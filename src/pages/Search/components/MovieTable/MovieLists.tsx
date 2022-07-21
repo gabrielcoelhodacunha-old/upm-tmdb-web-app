@@ -1,5 +1,5 @@
 import { TList } from 'common/types';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
 	addMovieToList,
@@ -15,26 +15,25 @@ function MovieLists({ movieId }: Props): JSX.Element {
 	const [isMovieInList, setIsMovieInList] = useState<boolean>(false);
 	const hasLists = lists.length > 0;
 
+	const toggleButtons = useCallback(() => {
+		const isMovieInSelectedList = () => {
+			const selectedListId = select.current ? select.current.value : '';
+			if (!selectedListId) return false;
+			const selectedList = lists.find((list) => list.id === selectedListId);
+			if (!selectedList) return false;
+			return selectedList.items.some((item) => item.id === movieId);
+		};
+		setIsMovieInList(isMovieInSelectedList());
+	}, [movieId, lists]);
+
 	useEffect(() => {
 		toggleButtons();
-	}, [lists]);
-
-	function toggleButtons() {
-		setIsMovieInList(isMovieInSelectedList());
-	}
-
-	function isMovieInSelectedList() {
-		const selectedListId = select.current ? select.current.value : '';
-		if (!selectedListId) return false;
-		const selectedList = lists.find((list) => list.id === selectedListId);
-		if (!selectedList) return false;
-		return selectedList.items.some((item) => item.id === movieId);
-	}
+	}, [lists, toggleButtons]);
 
 	const _addMovieToList = async () => {
 		if (!select.current) return;
 		await dispatch(addMovieToList({ movieId, listId: select.current.value }));
-		await dispatch(getLists());
+		dispatch(getLists());
 	};
 
 	const _removeMovieFromList = async () => {
@@ -42,7 +41,7 @@ function MovieLists({ movieId }: Props): JSX.Element {
 		await dispatch(
 			removeMovieFromList({ movieId, listId: select.current.value })
 		);
-		await dispatch(getLists());
+		dispatch(getLists());
 	};
 
 	const selectProps = {
