@@ -6,16 +6,31 @@
 [node]: https://nodejs.org/en/docs/
 [TMDB Account]: https://www.themoviedb.org/
 [TMDB API Key]: https://developers.themoviedb.org/3/getting-started/introduction
+[ReactJS]: https://reactjs.org/
+[Styled Components]: https://styled-components.com/
+[Redux Toolkit]: https://redux-toolkit.js.org/
+[TypeScript]: https://www.typescriptlang.org/
+[HTML]: https://developer.mozilla.org/en-US/docs/Web/HTML
+[CSS]: https://developer.mozilla.org/en-US/docs/Web/CSS
+[Axios]: https://axios-http.com/
 
 # TMDB Web App
 ## About
-A web application that consumes [TMDB API].
+A web application that consumes the [TMDB API].
+
+First created using [HTML], [CSS] and [TypeScript].
+
+Then modified to also use [ReactJS], [Axios], [Styled Components] and [Redux Toolkit].
 
 ## Why
 Part of [Practical Introduction to TypeScript] challenge required to complete **JavaScript Evolution** bootcamp, offered by [Impulso] and [Digital Innovation One].
 
+The modification was made as part of the challenge **Creating a Fully Componentized Front-End with ReactJS**.
+
 ## Contents
-At the moment, the functionalities available are:
+At the moment, the features available are:
+- Log in
+- Log out
 - Search for movies
 - Create lists
 - Delete lists
@@ -24,8 +39,6 @@ At the moment, the functionalities available are:
 
 ## How to install
 ### Prerequisites
-- [TMDB Account]
-- [TMDB API Key]
 - [node] (v16.15.1)
 - [npm] (8.11.0)
 
@@ -48,4 +61,13 @@ npm start
 ```
 
 ## How to use
-Navigate to http://localhost:1234/ in your web browser.
+### Prerequisites
+- [TMDB Account]
+- [TMDB API Key]
+
+### Usage
+Navigate to `http://localhost:3000/` in your web browser.
+
+Log in using your [TMDB Account] and [TMDB API Key].
+
+After logging in, you can use the other features.
