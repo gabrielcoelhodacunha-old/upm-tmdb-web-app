@@ -45,7 +45,7 @@ function Navigation(): JSX.Element {
 					<button ref={listsButton} onClick={() => navigateTo('lists')}>
 						Lists
 					</button>
-					<button onClick={logOut}>Log Out</button>
+					<button id="logOut" onClick={logOut}>Log Out</button>
 				</nav>
 			)}
 		</>

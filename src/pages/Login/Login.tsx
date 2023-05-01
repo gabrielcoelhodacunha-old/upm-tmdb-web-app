@@ -59,7 +59,7 @@ function LoginContainer() {
 			<LabelledInput {...usernameProps} />
 			<LabelledInput {...passwordProps} />
 			<LabelledInput {...apiKeyProps} />
-			<button>Log In</button>
+			<button id='logIn'>Log In</button>
 		</form>
 	);
 }

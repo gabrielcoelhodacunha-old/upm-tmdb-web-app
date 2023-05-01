@@ -5,8 +5,8 @@ import { getItem } from 'utils/localStorage';
 async function deleteSession() {
 	const apiKey = getItem('apiKey');
 	const sessionId = getItem('sessionId');
+	await _deleteSession(apiKey, sessionId);
 	localStorage.clear();
-	_deleteSession(apiKey, sessionId);
 }
 
 async function _deleteSession(

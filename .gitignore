@@ -1,2 +1,4 @@
 node_modules
 build
+
+fill_login_credentials.js
