@@ -23,6 +23,7 @@ function SearchContainer(): JSX.Element {
 		title: {
 			_ref: title,
 			onBlur: () => keepInputValue(title, 'searchQuery'),
+			id: 'movie-to-search',
 		},
 		search,
 	};

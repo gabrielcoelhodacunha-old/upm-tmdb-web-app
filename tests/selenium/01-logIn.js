@@ -1,5 +1,10 @@
-const { By, until } = require('selenium-webdriver');
-const { getDriver, waitUntilLogOutIsComplete } = require('../selenium-utils');
+const { until } = require('selenium-webdriver');
+const {
+	getDriver,
+	logInWithCredentials,
+	waitUntilLogOutIsComplete,
+	getPage,
+} = require('../utils');
 
 function logIn() {
 	describe('User at login page', () => {
@@ -7,47 +12,22 @@ function logIn() {
 
 		beforeEach(async () => {
 			driver = getDriver();
-			await driver.get('http://localhost:3000');
+			await getPage();
 		});
 
 		describe('with valid credentials', () => {
+			it('can log in', async () => {
+				await logInWithCredentials();
+			});
+
 			afterEach(async () => {
 				await waitUntilLogOutIsComplete();
 			});
-
-			it('can log in', async () => {
-				await driver
-					.wait(until.elementLocated(By.id('username')))
-					.sendKeys(process.env.TMDB_USERNAME);
-
-				await driver
-					.wait(until.elementLocated(By.id('password')))
-					.sendKeys(process.env.TMDB_PASSWORD);
-
-				await driver
-					.wait(until.elementLocated(By.id('apiKey')))
-					.sendKeys(process.env.TMDB_API_KEY);
-
-				await driver.wait(until.elementLocated(By.id('logIn'))).click();
-			});
 		});
 
-		describe('with invalid credentials', () => {
+		describe('without valid credentials', () => {
 			it("can't log in", async () => {
-				await driver
-					.wait(until.elementLocated(By.id('username')))
-					.sendKeys('username');
-
-				await driver
-					.wait(until.elementLocated(By.id('password')))
-					.sendKeys('password');
-
-				await driver
-					.wait(until.elementLocated(By.id('apiKey')))
-					.sendKeys('apiKey');
-
-				await driver.wait(until.elementLocated(By.id('logIn'))).click();
-
+				await logInWithCredentials('username', 'password', 'apiKey');
 				await driver.wait(until.alertIsPresent());
 				await driver.switchTo().alert().accept();
 			});
