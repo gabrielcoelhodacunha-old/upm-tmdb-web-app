@@ -6,7 +6,7 @@ const {
 	getPage,
 } = require('../utils');
 
-function logIn() {
+function logInPage() {
 	describe('User at login page', () => {
 		let driver;
 
@@ -35,4 +35,4 @@ function logIn() {
 	});
 }
 
-module.exports = logIn;
+module.exports = logInPage;

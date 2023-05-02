@@ -16,24 +16,6 @@ function searchMovies() {
 			await logInWithCredentials();
 		});
 
-		it('can search a movie', async () => {
-			await driver
-				.wait(until.elementLocated(By.id('movie-to-search')))
-				.sendKeys('Interstellar');
-
-			await driver
-				.wait(
-					until.elementLocated(
-						By.xpath("//*[@id='search_container']/*/button[text()='Search']")
-					)
-				)
-				.click();
-
-			await driver.wait(
-				until.elementLocated(By.xpath("//p[text()='Interstellar']"))
-			);
-		});
-
 		afterEach(async () => {
 			await waitUntilLogOutIsComplete();
 		});

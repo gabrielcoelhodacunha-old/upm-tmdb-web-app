@@ -41,11 +41,14 @@ async function logInWithCredentials(
 	password = TMDB_PASSWORD,
 	apiKey = TMDB_API_KEY
 ) {
-	await driver.wait(until.elementLocated(By.id('username'))).sendKeys(username);
+	let input = await driver.wait(until.elementLocated(By.id('username')));
+	await driver.executeScript(`arguments[0].value='${username}'`, input);
 
-	await driver.wait(until.elementLocated(By.id('password'))).sendKeys(password);
+	input = await driver.wait(until.elementLocated(By.id('password')));
+	await driver.executeScript(`arguments[0].value='${password}'`, input);
 
-	await driver.wait(until.elementLocated(By.id('apiKey'))).sendKeys(apiKey);
+	input = await driver.wait(until.elementLocated(By.id('apiKey')));
+	await driver.executeScript(`arguments[0].value='${apiKey}'`, input);
 
 	await driver.wait(until.elementLocated(By.id('logIn'))).click();
 }
@@ -55,10 +58,26 @@ async function waitUntilLogOutIsComplete() {
 	while ((await driver.executeScript(() => localStorage.length)) > 0);
 }
 
+async function searchMovie(movie) {
+	const input = await driver.wait(
+		until.elementLocated(By.id('movie-to-search'))
+	);
+	await driver.executeScript(`arguments[0].value='${movie}'`, input);
+
+	await driver
+		.wait(
+			until.elementLocated(
+				By.xpath("//*[@id='search_container']/*/button[text()='Search']")
+			)
+		)
+		.click();
+}
+
 module.exports = {
 	getDriver,
 	configureSeleniumSetupAndTeardown,
 	getPage,
 	logInWithCredentials,
 	waitUntilLogOutIsComplete,
+	searchMovie,
 };
