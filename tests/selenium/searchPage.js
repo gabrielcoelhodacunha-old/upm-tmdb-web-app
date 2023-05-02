@@ -1,6 +1,8 @@
 const { until, By } = require('selenium-webdriver');
 const { getDriver, getPage, waitUntilLogOutIsComplete } = require('../utils');
-const { logInWithCredentials } = require('./01-logInPage');
+const { logInWithCredentials } = require('./logInPage');
+
+const SEARCH_CONTAINER_XPATH = "//div[@id='search_container']";
 
 function searchPage() {
 	describe('User at search page', () => {
@@ -10,18 +12,18 @@ function searchPage() {
 		});
 
 		it('searchs a movie in the database', async () => {
-			const MOVIE_TO_SEARCH = 'Interstellar';
-			await searchMovie(MOVIE_TO_SEARCH);
+			const movie = 'Interstellar';
+			await searchMovie(movie);
 			await getDriver().wait(
-				until.elementLocated(By.xpath(`//p[text()='${MOVIE_TO_SEARCH}']`))
+				until.elementLocated(By.xpath(`//p[text()='${movie}']`))
 			);
 		});
 
 		it('searchs a movie not in the database', async () => {
-			const MOVIE_TO_SEARCH = '55c3a0bbxxxxxxxx 2023-05-01 14:47:29';
-			await searchMovie(MOVIE_TO_SEARCH);
+			const movie = '55c3a0bbxxxxxxxx 2023-05-01 14:47:29';
+			await searchMovie(movie);
 			const tableElements = await getDriver().findElements(
-				By.xpath("//div[@id='search_container']/table")
+				By.xpath(`${SEARCH_CONTAINER_XPATH}/table`)
 			);
 			expect(tableElements.length).toBe(0);
 		});
@@ -41,7 +43,7 @@ async function searchMovie(movie) {
 	await getDriver()
 		.wait(
 			until.elementLocated(
-				By.xpath("//div[@id='search_container']//button[text()='Search']")
+				By.xpath(`${SEARCH_CONTAINER_XPATH}//button[text()='Search']`)
 			)
 		)
 		.click();

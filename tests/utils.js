@@ -22,7 +22,7 @@ async function configureChromeWebDriver() {
 			},
 		})
 		.build();
-	await driver.manage().setTimeouts({ implicit: 5000 });
+	await driver.manage().setTimeouts({ implicit: 1000 });
 	await driver.manage().window().maximize();
 	return driver;
 }

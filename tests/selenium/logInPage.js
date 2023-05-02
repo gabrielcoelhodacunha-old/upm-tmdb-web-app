@@ -31,14 +31,10 @@ function logInPage() {
 	});
 }
 
-const TMDB_USERNAME = process.env.TMDB_USERNAME;
-const TMDB_PASSWORD = process.env.TMDB_PASSWORD;
-const TMDB_API_KEY = process.env.TMDB_API_KEY;
-
 async function logInWithCredentials(
-	username = TMDB_USERNAME,
-	password = TMDB_PASSWORD,
-	apiKey = TMDB_API_KEY
+	username = process.env.TMDB_USERNAME,
+	password = process.env.TMDB_PASSWORD,
+	apiKey = process.env.TMDB_API_KEY
 ) {
 	const usernameInput = await getDriver().wait(
 		until.elementLocated(By.id('username'))

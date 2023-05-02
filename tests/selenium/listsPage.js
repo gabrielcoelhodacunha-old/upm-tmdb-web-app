@@ -6,7 +6,7 @@ const {
 	generateRandomString,
 	acceptAlert,
 } = require('../utils');
-const { logInWithCredentials } = require('./01-logInPage');
+const { logInWithCredentials } = require('./logInPage');
 
 const LISTS_CONTAINER_XPATH = "//div[@id='lists_container']";
 
@@ -18,36 +18,40 @@ function listsPage() {
 			await getDriver()
 				.wait(until.elementLocated(By.xpath("//button[text()='Lists']")))
 				.click();
-			await getDriver().findElements(By.xpath('//table'));
 		});
 
 		describe('can create a list', () => {
 			it('with name and description', async () => {
-				await createList(generateRandomString(), generateRandomString());
+				const name = generateRandomString();
+				const description = generateRandomString();
+				await createList(name, description);
+				await waitUntilNewListAppears(name, description);
+			});
+
+			it('with only name', async () => {
+				const name = generateRandomString();
+				await createList(name);
+				await waitUntilNewListAppears(name);
 			});
 		});
 
 		describe("can't create a list", () => {
-			it('with empty name', async () => {
+			it('without a name', async () => {
 				await createList('');
 				await acceptAlert();
 			});
 
-			it('with same name as existing one', async () => {
+			it('with same name as other list', async () => {
 				const name = generateRandomString();
 				await createList(name);
-				await getDriver().wait(
-					until.elementLocated(
-						By.xpath(`${LISTS_CONTAINER_XPATH}//p[text()='${name}']`)
-					)
-				);
+				await waitUntilNewListAppears(name);
 				await createList(name);
 				await acceptAlert();
 			});
 		});
 
 		afterEach(async () => {
-			await deleteLists();
+			await waitUntilDeletedAllLists();
 			await waitUntilLogOutIsComplete();
 		});
 	});
@@ -72,7 +76,6 @@ async function createList(name, description = '') {
 		nameInput,
 		descriptionTextArea
 	);
-	await nameInput.click();
 	await getDriver()
 		.wait(
 			until.elementLocated(
@@ -82,11 +85,31 @@ async function createList(name, description = '') {
 		.click();
 }
 
-async function deleteLists() {
+async function waitUntilNewListAppears(name, description = null) {
+	await getDriver().wait(
+		until.elementLocated(
+			By.xpath(`${LISTS_CONTAINER_XPATH}//p[text()='${name}']`)
+		)
+	);
+	if (description) {
+		await getDriver().wait(
+			until.elementLocated(
+				By.xpath(`${LISTS_CONTAINER_XPATH}//p[text()='${description}']`)
+			)
+		);
+	}
+}
+
+async function waitUntilDeletedAllLists() {
 	const deleteButtons = await getDriver().findElements(
 		By.xpath(`${LISTS_CONTAINER_XPATH}//button[text()='Delete list']`)
 	);
 	deleteButtons.forEach(async (button) => await button.click());
+	while (
+		(await getDriver().findElements(
+			By.xpath(`${LISTS_CONTAINER_XPATH}/table`)
+		)) > 0
+	);
 }
 
-module.exports = { listsPage, createList, deleteLists };
+module.exports = { listsPage, createList, waitUntilDeletedAllLists };
