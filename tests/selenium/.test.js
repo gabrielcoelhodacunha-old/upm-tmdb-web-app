@@ -1,11 +1,11 @@
 const { configureSeleniumSetupAndTeardown } = require('../utils');
-const { logInPage } = require('./logInPage');
-const { searchPage } = require('./searchPage');
-const { listsPage } = require('./listsPage');
+const logInPage = require('./loginPage');
+const searchPage = require('./searchPage');
+const listsPage = require('./listsPage');
 
 describe('TMDB Web App', () => {
 	configureSeleniumSetupAndTeardown();
-	// logInPage();
+	logInPage();
 	searchPage();
-	// listsPage();
+	listsPage();
 });

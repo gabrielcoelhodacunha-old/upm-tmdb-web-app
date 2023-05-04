@@ -11,7 +11,7 @@
 		"react-router-dom": "^6.3.0"
 	},
 	"scripts": {
-		"selenium": "jest --config=tests/selenium/jest.config.js",
+		"selenium": "jest --config=tests/selenium/jest.config.js --runInBand",
 		"selenium-applitools-eyes": "jest --config=tests/selenium-applitools-eyes/jest.config.js",
 		"start": "HOST=0.0.0.0 react-scripts start",
 		"build": "react-scripts build",

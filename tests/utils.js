@@ -6,6 +6,7 @@ const getDriver = () => driver;
 function configureSeleniumSetupAndTeardown() {
 	beforeEach(async () => {
 		driver = await configureChromeWebDriver();
+		await getPage();
 	});
 
 	afterEach(async () => {
@@ -31,6 +32,12 @@ async function getPage(page = '') {
 	await getDriver().get(`http://localhost:3000/${page}`);
 }
 
+async function goToPageByClickingButton(buttonText) {
+	await getDriver()
+		.wait(until.elementLocated(By.xpath(`//button[text()='${buttonText}']`)))
+		.click();
+}
+
 async function waitUntilLogOutIsComplete() {
 	await getDriver()
 		.wait(until.elementLocated(By.id('logOut')))
@@ -51,7 +58,7 @@ const generateRandomString = (length = 20) =>
 module.exports = {
 	getDriver,
 	configureSeleniumSetupAndTeardown,
-	getPage,
+	goToPageByClickingButton,
 	waitUntilLogOutIsComplete,
 	acceptAlert,
 	generateRandomString,

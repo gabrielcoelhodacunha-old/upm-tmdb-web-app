@@ -1,37 +1,38 @@
-const { until, By } = require('selenium-webdriver');
 const {
-	getPage,
 	waitUntilLogOutIsComplete,
-	getDriver,
 	generateRandomString,
 	acceptAlert,
+	goToPageByClickingButton,
 } = require('../utils');
-const { logInWithCredentials } = require('./logInPage');
-
-const LISTS_CONTAINER_XPATH = "//div[@id='lists_container']";
+const {
+	createList,
+	waitUntilNewListAppears,
+	removeMovieFromList,
+	waitUntilDeletedAllLists,
+} = require('./listsPageUtils');
+const { logInWithCredentials } = require('./loginPageUtils');
+const { addMovieToList } = require('./searchPageUtils');
 
 function listsPage() {
 	describe('User at lists page', () => {
+		let listName;
+
 		beforeEach(async () => {
-			await getPage();
 			await logInWithCredentials();
-			await getDriver()
-				.wait(until.elementLocated(By.xpath("//button[text()='Lists']")))
-				.click();
+			await goToPageByClickingButton('Lists');
+			listName = generateRandomString();
 		});
 
 		describe('can create a list', () => {
 			it('with name and description', async () => {
-				const name = generateRandomString();
-				const description = generateRandomString();
-				await createList(name, description);
-				await waitUntilNewListAppears(name, description);
+				const listDescription = generateRandomString();
+				await createList(listName, listDescription);
+				await waitUntilNewListAppears(listName, listDescription);
 			});
 
 			it('with only name', async () => {
-				const name = generateRandomString();
-				await createList(name);
-				await waitUntilNewListAppears(name);
+				await createList(listName);
+				await waitUntilNewListAppears(listName);
 			});
 		});
 
@@ -42,11 +43,26 @@ function listsPage() {
 			});
 
 			it('with same name as other list', async () => {
-				const name = generateRandomString();
-				await createList(name);
-				await waitUntilNewListAppears(name);
-				await createList(name);
+				await createList(listName);
+				await waitUntilNewListAppears(listName);
+				await createList(listName);
 				await acceptAlert();
+			});
+		});
+
+		describe('removes movie from list', () => {
+			const movie = 'Interstellar';
+
+			beforeEach(async () => {
+				await createList(listName);
+				await waitUntilNewListAppears(listName);
+				await goToPageByClickingButton('Search');
+				await addMovieToList(movie);
+				await goToPageByClickingButton('Lists');
+			});
+
+			it('with sucess', async () => {
+				await removeMovieFromList(listName);
 			});
 		});
 
@@ -57,59 +73,4 @@ function listsPage() {
 	});
 }
 
-async function createList(name, description = '') {
-	const nameInput = await getDriver().wait(
-		until.elementLocated(
-			By.xpath(`${LISTS_CONTAINER_XPATH}//label[text()='Name']/input`)
-		)
-	);
-	const descriptionTextArea = await getDriver().wait(
-		until.elementLocated(
-			By.xpath(`${LISTS_CONTAINER_XPATH}//label[text()='Description']/textarea`)
-		)
-	);
-	await getDriver().executeScript(
-		`
-		arguments[0].value='${name}'
-		arguments[1].value='${description}'
-		`,
-		nameInput,
-		descriptionTextArea
-	);
-	await getDriver()
-		.wait(
-			until.elementLocated(
-				By.xpath(`${LISTS_CONTAINER_XPATH}//button[text()='Create List']`)
-			)
-		)
-		.click();
-}
-
-async function waitUntilNewListAppears(name, description = null) {
-	await getDriver().wait(
-		until.elementLocated(
-			By.xpath(`${LISTS_CONTAINER_XPATH}//p[text()='${name}']`)
-		)
-	);
-	if (description) {
-		await getDriver().wait(
-			until.elementLocated(
-				By.xpath(`${LISTS_CONTAINER_XPATH}//p[text()='${description}']`)
-			)
-		);
-	}
-}
-
-async function waitUntilDeletedAllLists() {
-	const deleteButtons = await getDriver().findElements(
-		By.xpath(`${LISTS_CONTAINER_XPATH}//button[text()='Delete list']`)
-	);
-	deleteButtons.forEach(async (button) => await button.click());
-	while (
-		(await getDriver().findElements(
-			By.xpath(`${LISTS_CONTAINER_XPATH}/table`)
-		)) > 0
-	);
-}
-
-module.exports = { listsPage, createList, waitUntilDeletedAllLists };
+module.exports = listsPage;

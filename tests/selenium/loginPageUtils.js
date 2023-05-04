@@ -1,35 +1,5 @@
 const { until, By } = require('selenium-webdriver');
-const {
-	getPage,
-	getDriver,
-	waitUntilLogOutIsComplete,
-	acceptAlert,
-} = require('../utils');
-
-function logInPage() {
-	describe('User at login page', () => {
-		beforeEach(async () => {
-			await getPage();
-		});
-
-		describe('with valid credentials', () => {
-			it('can log in', async () => {
-				await logInWithCredentials();
-			});
-
-			afterEach(async () => {
-				await waitUntilLogOutIsComplete();
-			});
-		});
-
-		describe('without valid credentials', () => {
-			it("can't log in", async () => {
-				await logInWithCredentials('username', 'password', 'apiKey');
-				await acceptAlert();
-			});
-		});
-	});
-}
+const { getDriver } = require('../utils');
 
 async function logInWithCredentials(
 	username = process.env.TMDB_USERNAME,
@@ -62,4 +32,4 @@ async function logInWithCredentials(
 		.click();
 }
 
-module.exports = { logInPage, logInWithCredentials };
+module.exports = { logInWithCredentials };
