@@ -12,7 +12,7 @@
 	},
 	"scripts": {
 		"selenium": "jest --config=tests/selenium/jest.config.js --runInBand",
-		"selenium-applitools-eyes": "jest --config=tests/selenium-applitools-eyes/jest.config.js",
+		"selenium-applitools-eyes": "jest --config=tests/selenium-applitools-eyes/jest.config.js --runInBand",
 		"start": "HOST=0.0.0.0 react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
