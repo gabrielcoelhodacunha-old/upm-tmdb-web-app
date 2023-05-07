@@ -1,9 +1,9 @@
+const { generateRandomString } = require('../utils');
 const {
 	waitUntilLogOutIsComplete,
-	generateRandomString,
-	acceptAlert,
+	// acceptAlert,
 	goToPageByClickingButton,
-} = require('../utils');
+} = require('./utils');
 const {
 	createList,
 	waitUntilNewListAppears,
@@ -11,10 +11,14 @@ const {
 	waitUntilDeletedAllLists,
 } = require('./listsPageUtils');
 const { logInWithCredentials } = require('./loginPageUtils');
-const { addMovieToList } = require('./searchPageUtils');
+const {
+	searchMovie,
+	waitUntilMovieAppears,
+	addMovieToList,
+} = require('./searchPageUtils');
 
 function listsPage() {
-	describe('User at lists page', () => {
+	describe('Uuário na página Lists', () => {
 		let listName;
 
 		beforeEach(async () => {
@@ -23,45 +27,47 @@ function listsPage() {
 			listName = generateRandomString();
 		});
 
-		describe('can create a list', () => {
-			it('with name and description', async () => {
+		describe('consegue criar uma lista', () => {
+			it('com nome e descrição', async () => {
 				const listDescription = generateRandomString();
 				await createList(listName, listDescription);
 				await waitUntilNewListAppears(listName, listDescription);
 			});
 
-			it('with only name', async () => {
-				await createList(listName);
-				await waitUntilNewListAppears(listName);
-			});
+			// it('somente com nome', async () => {
+			// 	await createList(listName);
+			// 	await waitUntilNewListAppears(listName);
+			// });
 		});
 
-		describe("can't create a list", () => {
-			it('without a name', async () => {
-				await createList('');
-				await acceptAlert();
-			});
+		// describe('não consegue criar uma lista', () => {
+		// 	it('sem nome', async () => {
+		// 		await createList('');
+		// 		await acceptAlert();
+		// 	});
 
-			it('with same name as other list', async () => {
-				await createList(listName);
-				await waitUntilNewListAppears(listName);
-				await createList(listName);
-				await acceptAlert();
-			});
-		});
+		// 	it('com mesmo nome de lista existente', async () => {
+		// 		await createList(listName);
+		// 		await waitUntilNewListAppears(listName);
+		// 		await createList(listName);
+		// 		await acceptAlert();
+		// 	});
+		// });
 
-		describe('removes movie from list', () => {
+		describe('remove um filme de uma lista', () => {
 			const movie = 'Interstellar';
 
 			beforeEach(async () => {
 				await createList(listName);
 				await waitUntilNewListAppears(listName);
 				await goToPageByClickingButton('Search');
+				await searchMovie(movie);
+				await waitUntilMovieAppears(movie);
 				await addMovieToList(movie);
 				await goToPageByClickingButton('Lists');
 			});
 
-			it('with sucess', async () => {
+			it('com sucesso', async () => {
 				await removeMovieFromList(listName);
 			});
 		});

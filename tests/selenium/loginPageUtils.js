@@ -1,5 +1,5 @@
 const { until, By } = require('selenium-webdriver');
-const { getDriver } = require('../utils');
+const { getDriver } = require('./utils');
 
 async function logInWithCredentials(
 	username = process.env.TMDB_USERNAME,

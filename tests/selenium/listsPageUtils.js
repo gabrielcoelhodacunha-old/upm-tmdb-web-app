@@ -1,5 +1,5 @@
 const { until, By } = require('selenium-webdriver');
-const { getDriver } = require('../utils');
+const { getDriver } = require('./utils');
 
 const LISTS_CONTAINER_XPATH = "//div[@id='lists_container']";
 

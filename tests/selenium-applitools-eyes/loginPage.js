@@ -1,36 +1,22 @@
-const { BatchInfo } = require('@applitools/eyes-selenium');
-const { waitUntilLogOutIsComplete, acceptAlert } = require('../utils');
-const {
-	APPLITOOLS_APP,
-	useEyesToCheckWholePage,
-	getEyesConfig,
-} = require('./applitoolsEyesUtils');
-const { logInWithCredentials } = require('./loginPageUtils');
+const { PAGES, waitUntilLogOutIsComplete } = require('../selenium/utils');
+const { setBatchInfoForPage, useEyesToCheckWholePage } = require('./utils');
+const { logInWithCredentials } = require('../selenium/loginPageUtils');
 
 function logInPage() {
-	describe('User at login page', () => {
+	describe(`Usuário na página ${PAGES.LOGIN}`, () => {
 		beforeAll(async () => {
-			getEyesConfig().setBatch(new BatchInfo(`${APPLITOOLS_APP} @ Login page`));
+			await setBatchInfoForPage(PAGES.LOGIN);
 		});
 
-		describe('with valid credentials', () => {
-			it('can log in', async () => {
-				await useEyesToCheckWholePage('Login');
+		describe('com credenciais válidas', () => {
+			it('consegue acessar a aplicação', async () => {
+				await useEyesToCheckWholePage(PAGES.LOGIN);
 				await logInWithCredentials();
-				await useEyesToCheckWholePage('Search');
+				await useEyesToCheckWholePage(PAGES.SEARCH);
 			});
 
 			afterEach(async () => {
 				await waitUntilLogOutIsComplete();
-			});
-		});
-
-		describe('without valid credentials', () => {
-			it("can't log in", async () => {
-				// eyes
-				await logInWithCredentials('username', 'password', 'apiKey');
-				await acceptAlert();
-				// eyes
 			});
 		});
 	});

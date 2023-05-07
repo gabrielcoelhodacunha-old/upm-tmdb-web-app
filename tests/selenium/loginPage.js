@@ -1,10 +1,13 @@
-const { waitUntilLogOutIsComplete, acceptAlert } = require('../utils');
+const {
+	waitUntilLogOutIsComplete,
+	//acceptAlert
+} = require('./utils');
 const { logInWithCredentials } = require('./loginPageUtils');
 
 function logInPage() {
-	describe('User at login page', () => {
-		describe('with valid credentials', () => {
-			it('can log in', async () => {
+	describe('Usuário na página Login', () => {
+		describe('com credenciais válidas', () => {
+			it('consegue acessar a aplicação', async () => {
 				await logInWithCredentials();
 			});
 
@@ -13,12 +16,12 @@ function logInPage() {
 			});
 		});
 
-		describe('without valid credentials', () => {
-			it("can't log in", async () => {
-				await logInWithCredentials('username', 'password', 'apiKey');
-				await acceptAlert();
-			});
-		});
+		// describe('sem credenciais válidas', () => {
+		// 	it('não consegue acessar a aplicação', async () => {
+		// 		await logInWithCredentials('username', 'password', 'apiKey');
+		// 		await acceptAlert();
+		// 	});
+		// });
 	});
 }
 

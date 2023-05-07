@@ -1,5 +1,5 @@
 const { until, By } = require('selenium-webdriver');
-const { getDriver } = require('../utils');
+const { getDriver } = require('./utils');
 
 const SEARCH_CONTAINER_XPATH = "//div[@id='search_container']";
 
@@ -25,12 +25,10 @@ async function waitUntilMovieAppears(movie) {
 }
 
 async function addMovieToList(movie) {
-	await searchMovie(movie);
 	await waitUntilActionForMovieIsComplete('Add', movie);
 }
 
 async function removeMovieFromList(movie) {
-	await searchMovie(movie);
 	await waitUntilActionForMovieIsComplete('Remove', movie);
 }
 

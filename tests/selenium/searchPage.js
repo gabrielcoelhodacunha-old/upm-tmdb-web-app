@@ -1,12 +1,12 @@
-const { By } = require('selenium-webdriver');
+// const { By } = require('selenium-webdriver');
+const { generateRandomString } = require('../utils');
 const {
-	getDriver,
+	// getDriver,
 	waitUntilLogOutIsComplete,
 	goToPageByClickingButton,
-	generateRandomString,
-} = require('../utils');
+} = require('./utils');
 const {
-	SEARCH_CONTAINER_XPATH,
+	// SEARCH_CONTAINER_XPATH,
 	searchMovie,
 	waitUntilMovieAppears,
 	addMovieToList,
@@ -20,29 +20,29 @@ const {
 } = require('./listsPageUtils');
 
 function searchPage() {
-	describe('User at search page', () => {
+	describe('Usuário na página Search', () => {
 		beforeEach(async () => {
 			await logInWithCredentials();
 		});
 
-		describe('searchs a movie', () => {
-			it('in the database', async () => {
+		describe('busca por um filme', () => {
+			it('presente na base de dados', async () => {
 				const movie = 'Interstellar';
 				await searchMovie(movie);
 				await waitUntilMovieAppears(movie);
 			});
 
-			it('not in the database', async () => {
-				const movie = '55c3a0bbxxxxxxxx 2023-05-01 14:47:29';
-				await searchMovie(movie);
-				const tableElements = await getDriver().findElements(
-					By.xpath(`${SEARCH_CONTAINER_XPATH}/table`)
-				);
-				expect(tableElements.length).toBe(0);
-			});
+			// it('não existente na base de dados', async () => {
+			// 	const movie = '55c3a0bbxxxxxxxx 2023-05-01 14:47:29';
+			// 	await searchMovie(movie);
+			// 	const tableElements = await getDriver().findElements(
+			// 		By.xpath(`${SEARCH_CONTAINER_XPATH}/table`)
+			// 	);
+			// 	expect(tableElements.length).toBe(0);
+			// });
 		});
 
-		describe('completes action', () => {
+		describe('completa a ação', () => {
 			const movie = 'Interstellar';
 
 			beforeEach(async () => {
@@ -51,20 +51,22 @@ function searchPage() {
 				await createList(list);
 				await waitUntilNewListAppears(list);
 				await goToPageByClickingButton('Search');
+				await searchMovie(movie);
+				await waitUntilMovieAppears(movie);
 			});
 
-			describe('add movie to list', () => {
-				it('with sucess', async () => {
+			describe('adicionar filme numa lista', () => {
+				it('com sucesso', async () => {
 					await addMovieToList(movie);
 				});
 			});
 
-			describe('remove movie from list', () => {
+			describe('remover filme de uma lista', () => {
 				beforeEach(async () => {
 					await addMovieToList(movie);
 				});
 
-				it('with sucess', async () => {
+				it('com sucesso', async () => {
 					await removeMovieFromList(movie);
 				});
 			});

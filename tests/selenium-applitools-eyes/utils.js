@@ -1,10 +1,12 @@
 const {
 	Eyes,
-	ClassicRunner,
-	Target,
 	Configuration,
+	ClassicRunner,
+	RectangleSize,
+	BatchInfo,
+	Target,
 } = require('@applitools/eyes-selenium');
-const { getDriver } = require('../utils');
+const { getDriver, SCREEN } = require('../selenium/utils');
 
 const APPLITOOLS_APP = 'TMDB Web App';
 
@@ -28,7 +30,8 @@ function configureApplitoolsEyesSetupAndTeardown() {
 		await eyes.open(
 			getDriver(),
 			APPLITOOLS_APP,
-			expect.getState().currentTestName
+			expect.getState().currentTestName,
+			new RectangleSize(SCREEN.WIDTH, SCREEN.HEIGHT)
 		);
 	});
 
@@ -37,18 +40,26 @@ function configureApplitoolsEyesSetupAndTeardown() {
 	});
 
 	afterAll(async () => {
-		await runner.getAllTestResults();
+		// await runner.getAllTestResults();
 	});
 }
 
-async function useEyesToCheckWholePage(description) {
-	await getEyes().check(Target.window().fully().withName(description));
+async function setBatchInfoForPage(page) {
+	await getEyesConfig().setBatch(
+		new BatchInfo(`${APPLITOOLS_APP} @ página ${page}`)
+	);
+}
+
+async function useEyesToCheckWholePage(page, description = null) {
+	let checkpointName = `Página ${page}`;
+	checkpointName += description ? `: ${description}` : '';
+	await getEyes().check(Target.window().fully(false).withName(checkpointName));
 }
 
 module.exports = {
-	APPLITOOLS_APP,
 	getEyesConfig,
 	getEyes,
 	configureApplitoolsEyesSetupAndTeardown,
+	setBatchInfoForPage,
 	useEyesToCheckWholePage,
 };

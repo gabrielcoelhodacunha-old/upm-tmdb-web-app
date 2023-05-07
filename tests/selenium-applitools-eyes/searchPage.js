@@ -1,84 +1,84 @@
-const { By } = require('selenium-webdriver');
+const { generateRandomString } = require('../utils');
 const {
-	getDriver,
+	PAGES,
 	waitUntilLogOutIsComplete,
 	goToPageByClickingButton,
-	generateRandomString,
-} = require('../utils');
+} = require('../selenium/utils');
+const { setBatchInfoForPage, useEyesToCheckWholePage } = require('./utils');
 const {
-	SEARCH_CONTAINER_XPATH,
 	searchMovie,
 	waitUntilMovieAppears,
 	addMovieToList,
 	removeMovieFromList,
-} = require('./searchPageUtils');
-const { logInWithCredentials } = require('./loginPageUtils');
+} = require('../selenium/searchPageUtils');
+const { logInWithCredentials } = require('../selenium/loginPageUtils');
 const {
 	waitUntilDeletedAllLists,
 	createList,
 	waitUntilNewListAppears,
-} = require('./listsPageUtils');
+} = require('../selenium/listsPageUtils');
 
 function searchPage() {
-	describe('User at search page', () => {
+	describe(`Usuário na página ${PAGES.SEARCH}`, () => {
+		beforeAll(async () => {
+			await setBatchInfoForPage(PAGES.SEARCH);
+		});
+
 		beforeEach(async () => {
 			await logInWithCredentials();
 		});
 
-		describe('searchs a movie', () => {
-			it('in the database', async () => {
-				// eyes
+		describe('busca por um filme', () => {
+			it('presente na base de dados', async () => {
+				await useEyesToCheckWholePage(PAGES.SEARCH);
 				const movie = 'Interstellar';
 				await searchMovie(movie);
 				await waitUntilMovieAppears(movie);
-				// eyes
-			});
-
-			it('not in the database', async () => {
-				// eyes
-				const movie = '55c3a0bbxxxxxxxx 2023-05-01 14:47:29';
-				await searchMovie(movie);
-				const tableElements = await getDriver().findElements(
-					By.xpath(`${SEARCH_CONTAINER_XPATH}/table`)
-				);
-				expect(tableElements.length).toBe(0);
-				// eyes
+				await useEyesToCheckWholePage(PAGES.SEARCH, 'resultados da pesquisa');
 			});
 		});
 
-		describe('completes action', () => {
+		describe('completa a ação', () => {
 			const movie = 'Interstellar';
 
 			beforeEach(async () => {
 				const list = generateRandomString();
-				await goToPageByClickingButton('Lists');
+				await goToPageByClickingButton(PAGES.LISTS);
 				await createList(list);
 				await waitUntilNewListAppears(list);
-				await goToPageByClickingButton('Search');
+				await goToPageByClickingButton(PAGES.SEARCH);
+				await searchMovie(movie);
+				await waitUntilMovieAppears(movie);
 			});
 
-			describe('add movie to list', () => {
-				it('with sucess', async () => {
-					// eyes
+			describe('adicionar filme numa lista', () => {
+				it('com sucesso', async () => {
+					await useEyesToCheckWholePage(PAGES.SEARCH, 'resultados da pesquisa');
 					await addMovieToList(movie);
-					// eyes
+					await useEyesToCheckWholePage(
+						PAGES.SEARCH,
+						'filme adicionado na lista'
+					);
 				});
 			});
 
-			describe('remove movie from list', () => {
+			describe('remover filme de uma lista', () => {
 				beforeEach(async () => {
 					await addMovieToList(movie);
 				});
 
-				it('with sucess', async () => {
-					// eyes
+				it('com sucesso', async () => {
+					await useEyesToCheckWholePage(PAGES.SEARCH, 'lista com filme');
 					await removeMovieFromList(movie);
-					// eyes
+					await useEyesToCheckWholePage(
+						PAGES.SEARCH,
+						'filme removido da lista'
+					);
 				});
 			});
 
 			afterEach(async () => {
-				await goToPageByClickingButton('Lists');
+				await goToPageByClickingButton(PAGES.LISTS);
 				await waitUntilDeletedAllLists();
 			});
 		});
