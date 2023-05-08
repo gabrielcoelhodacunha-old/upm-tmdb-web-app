@@ -56,4 +56,5 @@ module.exports = {
 	waitUntilMovieAppears,
 	addMovieToList,
 	removeMovieFromList,
+	getListsMenuForMovieXpath,
 };

@@ -45,15 +45,27 @@ function configureApplitoolsEyesSetupAndTeardown() {
 }
 
 async function setBatchInfoForPage(page) {
-	await getEyesConfig().setBatch(
-		new BatchInfo(`${APPLITOOLS_APP} @ página ${page}`)
+	await getEyesConfig().setBatch(new BatchInfo(`${APPLITOOLS_APP} @ ${page}`));
+}
+
+async function checkPage(
+	page,
+	description = null,
+	ignoreDisplacementsVal = false
+) {
+	await getEyes().check(
+		getTargetWindow(page, description, ignoreDisplacementsVal)
 	);
 }
 
-async function useEyesToCheckWholePage(page, description = null) {
-	let checkpointName = `Página ${page}`;
-	checkpointName += description ? `: ${description}` : '';
-	await getEyes().check(Target.window().fully(false).withName(checkpointName));
+function getTargetWindow(page, description, ignoreDisplacementsVal) {
+	return Target.window()
+		.withName(getCheckpointName(page, description))
+		.ignoreDisplacements(ignoreDisplacementsVal);
+}
+
+function getCheckpointName(page, description) {
+	return `Página ${page}${description ? `: ${description}` : ''}`;
 }
 
 module.exports = {
@@ -61,5 +73,6 @@ module.exports = {
 	getEyes,
 	configureApplitoolsEyesSetupAndTeardown,
 	setBatchInfoForPage,
-	useEyesToCheckWholePage,
+	checkPage,
+	getTargetWindow,
 };

@@ -4,7 +4,7 @@ const {
 	waitUntilLogOutIsComplete,
 	goToPageByClickingButton,
 } = require('../selenium/utils');
-const { setBatchInfoForPage, useEyesToCheckWholePage } = require('./utils');
+const { setBatchInfoForPage, checkPage } = require('./utils');
 const {
 	createList,
 	waitUntilNewListAppears,
@@ -17,6 +17,7 @@ const {
 	waitUntilMovieAppears,
 	addMovieToList,
 } = require('../selenium/searchPageUtils');
+const { checkListsPageWithList } = require('./listsPageUtils');
 
 function listsPage() {
 	describe(`Usuário na página ${PAGES.LISTS}`, () => {
@@ -34,11 +35,11 @@ function listsPage() {
 
 		describe('consegue criar uma lista', () => {
 			it('com nome e descrição', async () => {
-				await useEyesToCheckWholePage(PAGES.LISTS);
+				await checkPage(PAGES.LISTS);
 				const listDescription = generateRandomString();
 				await createList(listName, listDescription);
 				await waitUntilNewListAppears(listName, listDescription);
-				await useEyesToCheckWholePage(PAGES.LISTS, 'lista criada');
+				await checkListsPageWithList('lista criada', listName, listDescription);
 			});
 		});
 
@@ -56,9 +57,9 @@ function listsPage() {
 			});
 
 			it('com sucesso', async () => {
-				await useEyesToCheckWholePage(PAGES.LISTS, 'lista com filme');
+				await checkListsPageWithList('lista com filme', listName);
 				await removeMovieFromList(listName);
-				await useEyesToCheckWholePage(PAGES.LISTS, 'filme removido da lista');
+				await checkListsPageWithList('filme removido da lista', listName);
 			});
 		});
 

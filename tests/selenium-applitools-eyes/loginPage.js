@@ -1,5 +1,5 @@
 const { PAGES, waitUntilLogOutIsComplete } = require('../selenium/utils');
-const { setBatchInfoForPage, useEyesToCheckWholePage } = require('./utils');
+const { setBatchInfoForPage, checkPage } = require('./utils');
 const { logInWithCredentials } = require('../selenium/loginPageUtils');
 
 function logInPage() {
@@ -10,9 +10,9 @@ function logInPage() {
 
 		describe('com credenciais válidas', () => {
 			it('consegue acessar a aplicação', async () => {
-				await useEyesToCheckWholePage(PAGES.LOGIN);
+				await checkPage(PAGES.LOGIN);
 				await logInWithCredentials();
-				await useEyesToCheckWholePage(PAGES.SEARCH);
+				await checkPage(PAGES.SEARCH);
 			});
 
 			afterEach(async () => {

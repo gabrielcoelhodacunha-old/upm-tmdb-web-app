@@ -4,7 +4,7 @@ const {
 	waitUntilLogOutIsComplete,
 	goToPageByClickingButton,
 } = require('../selenium/utils');
-const { setBatchInfoForPage, useEyesToCheckWholePage } = require('./utils');
+const { setBatchInfoForPage, checkPage } = require('./utils');
 const {
 	searchMovie,
 	waitUntilMovieAppears,
@@ -17,6 +17,7 @@ const {
 	createList,
 	waitUntilNewListAppears,
 } = require('../selenium/listsPageUtils');
+const { checkSearchPageResultsWithList } = require('./searchPageUtils');
 
 function searchPage() {
 	describe(`Usuário na página ${PAGES.SEARCH}`, () => {
@@ -30,11 +31,11 @@ function searchPage() {
 
 		describe('busca por um filme', () => {
 			it('presente na base de dados', async () => {
-				await useEyesToCheckWholePage(PAGES.SEARCH);
+				await checkPage(PAGES.SEARCH);
 				const movie = 'Interstellar';
 				await searchMovie(movie);
 				await waitUntilMovieAppears(movie);
-				await useEyesToCheckWholePage(PAGES.SEARCH, 'resultados da pesquisa');
+				await checkPage(PAGES.SEARCH, 'resultados da pesquisa');
 			});
 		});
 
@@ -53,10 +54,10 @@ function searchPage() {
 
 			describe('adicionar filme numa lista', () => {
 				it('com sucesso', async () => {
-					await useEyesToCheckWholePage(PAGES.SEARCH, 'resultados da pesquisa');
+					await checkSearchPageResultsWithList(movie, 'resultados da pesquisa');
 					await addMovieToList(movie);
-					await useEyesToCheckWholePage(
-						PAGES.SEARCH,
+					await checkSearchPageResultsWithList(
+						movie,
 						'filme adicionado na lista'
 					);
 				});
@@ -68,10 +69,10 @@ function searchPage() {
 				});
 
 				it('com sucesso', async () => {
-					await useEyesToCheckWholePage(PAGES.SEARCH, 'lista com filme');
+					await checkSearchPageResultsWithList(movie, 'lista com filme');
 					await removeMovieFromList(movie);
-					await useEyesToCheckWholePage(
-						PAGES.SEARCH,
+					await checkSearchPageResultsWithList(
+						movie,
 						'filme removido da lista'
 					);
 				});
